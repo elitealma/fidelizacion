@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Nutrition - Seguimiento de Tareas</title>
+    <meta name="description" content="Sistema de seguimiento de tareas y fidelización de clientes - Elite Nutrition Fidelización">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="brand">
+                <div class="brand-icon">
+                    <span class="material-icons-outlined">shield</span>
+                </div>
+                <div class="brand-text">
+                    <span class="brand-name">ELITE NUTRITION</span>
+                    <span class="brand-subtitle">FIDELIZACIÓN</span>
+                </div>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item" id="nav-tablero">
+                <span class="material-icons-outlined">dashboard</span>
+                <span class="nav-label">Tablero</span>
+            </a>
+            <a href="#" class="nav-item active" id="nav-tareas">
+                <span class="material-icons-outlined">check_box</span>
+                <span class="nav-label">Tareas</span>
+            </a>
+            <a href="#" class="nav-item" id="nav-clientes">
+                <span class="material-icons-outlined">group</span>
+                <span class="nav-label">Clientes</span>
+            </a>
+            <a href="#" class="nav-item" id="nav-reportes">
+                <span class="material-icons-outlined">analytics</span>
+                <span class="nav-label">Reportes</span>
+            </a>
+            <a href="#" class="nav-item" id="nav-ajustes">
+                <span class="material-icons-outlined">settings</span>
+                <span class="nav-label">Ajustes</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button class="btn-new-task" id="btn-new-task">
+                <span>+</span> NUEVA TAREA
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Bar -->
+        <header class="top-bar">
+            <div class="top-bar-left">
+                <button class="menu-toggle" id="menu-toggle">
+                    <span class="material-icons-outlined">menu</span>
+                </button>
+                <h1 class="page-title">SEGUIMIENTO DE TAREAS</h1>
+            </div>
+            <div class="top-bar-right">
+                <div class="search-bar">
+                    <span class="material-icons-outlined">search</span>
+                    <input type="text" placeholder="Buscar cliente..." id="search-input">
+                </div>
+                <div class="user-profile" id="user-profile">
+                    <div class="user-info">
+                        <span class="user-name">Daniela Vega</span>
+                        <span class="user-role">ASESORA</span>
+                    </div>
+                    <div class="user-avatar">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=face" alt="Avatar" id="user-avatar-img">
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- KPI Cards -->
+        <section class="kpi-section">
+            <div class="kpi-card" id="kpi-clientes">
+                <div class="kpi-header">
+                    <span class="kpi-label">TOTAL CLIENTES</span>
+                </div>
+                <div class="kpi-body">
+                    <span class="kpi-value">1,284</span>
+                    <span class="kpi-change positive">+12%</span>
+                </div>
+            </div>
+            <div class="kpi-card" id="kpi-pendientes">
+                <div class="kpi-header">
+                    <span class="kpi-label">TAREAS PENDIENTES</span>
+                </div>
+                <div class="kpi-body">
+                    <span class="kpi-value">42</span>
+                    <span class="kpi-change priority">Priority</span>
+                </div>
+            </div>
+            <div class="kpi-card" id="kpi-calidad">
+                <div class="kpi-header">
+                    <span class="kpi-label">CALIDAD MEDIA</span>
+                </div>
+                <div class="kpi-body">
+                    <span class="kpi-value">A+</span>
+                    <span class="kpi-change excellent">Excelente</span>
+                </div>
+            </div>
+            <div class="kpi-card" id="kpi-conversion">
+                <div class="kpi-header">
+                    <span class="kpi-label">CONVERSIÓN</span>
+                </div>
+                <div class="kpi-body">
+                    <span class="kpi-value">68%</span>
+                    <span class="kpi-change peak">Peak</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tabs & Table -->
+        <section class="table-section">
+            <div class="table-tabs">
+                <div class="tabs-left">
+                    <button class="tab active" id="tab-activas" data-tab="activas">Activas</button>
+                    <button class="tab" id="tab-completadas" data-tab="completadas">Completadas</button>
+                    <button class="tab" id="tab-archivadas" data-tab="archivadas">Archivadas</button>
+                </div>
+                <div class="tabs-right">
+                    <button class="icon-btn" id="btn-filter" title="Filtrar">
+                        <span class="material-icons-outlined">filter_list</span>
+                    </button>
+                    <button class="icon-btn" id="btn-download" title="Descargar">
+                        <span class="material-icons-outlined">download</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+                <table class="data-table" id="data-table">
+                    <thead>
+                        <tr>
+                            <th>HORA</th>
+                            <th>NOMBRE DEL<br>CLIENTE</th>
+                            <th>WHATSAPP</th>
+                            <th>PRODUCTO</th>
+                            <th>TIPO<br>CLIENTE</th>
+                            <th>LLAMADA<br>5D</th>
+                            <th>LLAMADA<br>15D</th>
+                            <th>LLAMADA<br>25D</th>
+                            <th>LLAMADA<br>35D</th>
+                            <th>OBSERVACIONES</th>
+                            <th>CALIDAD</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <tr>
+                            <td class="cell-hora">09:00</td>
+                            <td class="cell-nombre"><strong>Alessandra<br>Rossi</strong></td>
+                            <td class="cell-whatsapp">+52 55<br>4123 0982</td>
+                            <td class="cell-producto"><span class="product-badge">RELOJ DE<br>ORO</span></td>
+                            <td class="cell-check"><span class="check-icon checked"><span class="material-icons-outlined">check_box</span></span></td>
+                            <td class="cell-check"><span class="check-icon unchecked"><span class="material-icons-outlined">check_box_outline_blank</span></span></td>
+                            <td class="cell-check"><span class="check-icon unchecked"><span class="material-icons-outlined">check_box_outline_blank</span></span></td>
+                            <td class="cell-check"><span class="check-icon unchecked"><span class="material-icons-outlined">check_box_outline_blank</span></span></td>
+                            <td class="cell-obs"><em>Interesada en grabado personalizado...</em></td>
+                            <td class="cell-calidad"><span class="calidad-badge bueno">● BUENO</span></td>
+                        </tr>
+                        <tr>
+                            <td class="cell-hora">10:30</td>
+                            <td class="cell-nombre"><strong>Julian<br>Vancini</strong></td>
+                            <td class="cell-whatsapp">+52 55<br>8821 3344</td>
+                            <td class="cell-producto"><span class="product-badge">ANILLO<br>DIAMANTE</span></td>
+                            <td class="cell-check"><span class="check-icon checked"><span class="material-icons-outlined">check_box</span></span></td>
+                            <td class="cell-check"><span class="check-icon checked"><span class="material-icons-outlined">check_box</span></span></td>
+                            <td class="cell-check"><span class="check-icon unchecked"><span class="material-icons-outlined">check_box_outline_blank</span></span></td>
+                            <td class="cell-check"><span class="check-icon unchecked"><span class="material-icons-outlined">check_box_outline_blank</span></span></td>
+                            <td class="cell-obs"><em>Pendiente confirmar talle final</em></td>
+                            <td class="cell-calidad"><span class="calidad-badge regular">● REGULAR</span></td>
+                        </tr>
+                        <tr>
+                            <td class="cell-hora">13:15</td>
+                            <td class="cell-nombre"><strong>Isabella<br>Conti</strong></td>
+                            <td class="cell-whatsapp">+52 55<br>9980 1122</td>
+                            <td class="cell-producto"><span class="product-badge">COLLAR<br>PLATINO</span></td>
+                            <td class="cell-check"><span class="check-icon checked"><span class="material-icons-outlined">check_box</span></span></td>
+                            <td class="cell-check"><span class="check-icon checked"><span class="material-icons-outlined">check_box</span></span></td>
+                            <td class="cell-check"><span class="check-icon checked"><span class="material-icons-outlined">check_box</span></span></td>
+                            <td class="cell-check"><span class="check-icon unchecked"><span class="material-icons-outlined">check_box_outline_blank</span></span></td>
+                            <td class="cell-obs"><em>Seguimiento excelente, VIP</em></td>
+                            <td class="cell-calidad"><span class="calidad-badge bueno">● BUENO</span></td>
+                        </tr>
+                        <tr>
+                            <td class="cell-hora">16:45</td>
+                            <td class="cell-nombre"><strong>Marco<br>Valenti</strong></td>
+                            <td class="cell-whatsapp">+52 55<br>1234 5678</td>
+                            <td class="cell-producto"><span class="product-badge">BRAZALETE</span></td>
+                            <td class="cell-check"><span class="check-icon checked"><span class="material-icons-outlined">check_box</span></span></td>
+                            <td class="cell-check"><span class="check-icon checked"><span class="material-icons-outlined">check_box</span></span></td>
+                            <td class="cell-check"><span class="check-icon checked"><span class="material-icons-outlined">check_box</span></span></td>
+                            <td class="cell-check"><span class="check-icon unchecked"><span class="material-icons-outlined">check_box_outline_blank</span></span></td>
+                            <td class="cell-obs"><em>Cliente molesto por demora envío</em></td>
+                            <td class="cell-calidad"><span class="calidad-badge critico">● CRÍTICO</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table-footer">
+                <span class="table-info">Mostrando 4 de 1,284 registros</span>
+                <div class="pagination" id="pagination">
+                    <button class="page-btn" id="page-prev"><</button>
+                    <button class="page-btn active" data-page="1">1</button>
+                    <button class="page-btn" data-page="2">2</button>
+                    <button class="page-btn" data-page="3">3</button>
+                    <button class="page-btn" id="page-next">></button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal Nueva Tarea -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal" id="modal-new-task">
+            <div class="modal-header">
+                <h2>Nueva Tarea</h2>
+                <button class="modal-close" id="modal-close">
+                    <span class="material-icons-outlined">close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="task-hora">Hora</label>
+                    <input type="time" id="task-hora" value="09:00">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="task-nombre">Nombre del Cliente</label>
+                        <input type="text" id="task-nombre" placeholder="Nombre completo">
+                    </div>
+                    <div class="form-group">
+                        <label for="task-whatsapp">WhatsApp</label>
+                        <input type="tel" id="task-whatsapp" placeholder="+52 55 XXXX XXXX">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="task-producto">Producto</label>
+                    <input type="text" id="task-producto" placeholder="Ej: RELOJ DE ORO">
+                </div>
+                <div class="form-group">
+                    <label for="task-observaciones">Observaciones</label>
+                    <textarea id="task-observaciones" rows="3" placeholder="Notas sobre el cliente..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="task-calidad">Calidad</label>
+                    <select id="task-calidad">
+                        <option value="bueno">BUENO</option>
+                        <option value="regular">REGULAR</option>
+                        <option value="critico">CRÍTICO</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" id="btn-cancel">Cancelar</button>
+                <button class="btn-save" id="btn-save">Guardar Tarea</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Supabase Configuration
+        const SUPABASE_URL = 'https://uubivtpzkrqqkrrbtvey.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV1Yml2dHB6a3JxcWtycmJ0dmV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA5MTkyMzMsImV4cCI6MjA4NjQ5NTIzM30.QkiTS8HgjY09SQwOMymRv1Jt6eZpBeHnN-ALQqY_fy8';
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    </script>
+    <script src="app.js"></script>
+</body>
+</html>
