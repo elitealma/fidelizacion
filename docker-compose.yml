@@ -3,5 +3,18 @@ version: '3.8'
 services:
   web:
     image: ghcr.io/elitealma/fidelizacion:latest
-    ports:
-      - "8080:80" # Cambia 8080 por el puerto que desees exponer en tu VPS
+    container_name: fidelizacion-web
+    restart: always
+    networks:
+      - traefik-proxy # Cambiar si tu red de Traefik se llama distinto en el VPS
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.fidelizacion.rule=Host(`fidelizacion.pegasus360agency.com`)"
+      - "traefik.http.routers.fidelizacion.entrypoints=websecure"
+      - "traefik.http.routers.fidelizacion.tls.certresolver=myresolver" # Cambia myresolver al que uses en Traefik
+      - "traefik.http.services.fidelizacion.loadbalancer.server.port=80"
+
+networks:
+  traefik-proxy:
+    external: true
+
