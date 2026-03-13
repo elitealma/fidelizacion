@@ -11,8 +11,9 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.fidelizacion.rule=Host(`fidelizacion.pegasus360agency.com`)"
       - "traefik.http.routers.fidelizacion.entrypoints=websecure"
-      - "traefik.http.routers.fidelizacion.tls.certresolver=myresolver" # Cambia myresolver al que uses en Traefik
+      - "traefik.http.routers.fidelizacion.tls.certresolver=letsencrypt" # Resolución SSL Automática de Traefik
       - "traefik.http.services.fidelizacion.loadbalancer.server.port=80"
+
 
 networks:
   pegasus_net:
