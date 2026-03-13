@@ -3,6 +3,7 @@ version: '3.8'
 services:
   web:
     build: .
+    image: fidelizacion-web:latest
     restart: always
     ports:
       - "8080:80" # Cambia 8080 por el puerto que desees exponer en tu VPS
