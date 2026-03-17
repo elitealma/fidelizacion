@@ -8,11 +8,26 @@ services:
     networks:
       - pegasus_net
     labels:
+      # Habilitar Traefik
       - "traefik.enable=true"
+      - "traefik.docker.network=pegasus_net"
+
+      # Router para HTTP (redirige a HTTPS)
       - "traefik.http.routers.fidelizacion.rule=Host(`fidelizacion.pegasus360agency.com`)"
-      - "traefik.http.routers.fidelizacion.entrypoints=websecure"
-      - "traefik.http.routers.fidelizacion.tls.certresolver=letsencrypt" # Resolución SSL Automática de Traefik
+      - "traefik.http.routers.fidelizacion.entrypoints=web"
+      - "traefik.http.routers.fidelizacion.middlewares=redirect-to-https"
+
+      # Router para HTTPS
+      - "traefik.http.routers.fidelizacion-secure.rule=Host(`fidelizacion.pegasus360agency.com`)"
+      - "traefik.http.routers.fidelizacion-secure.entrypoints=websecure"
+      - "traefik.http.routers.fidelizacion-secure.tls.certresolver=letsencryptresolver"
+
+      # Servicio
       - "traefik.http.services.fidelizacion.loadbalancer.server.port=80"
+
+      # Middleware de redirección HTTPS
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.permanent=true"
 
 
 networks:
