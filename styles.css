@@ -1437,6 +1437,314 @@ body {
 /* ================================
    RESPONSIVE
    ================================ */
+/* ================================
+   KANBAN BOARD
+   ================================ */
+.kanban-controls {
+    padding: 20px 32px 16px;
+}
+
+.kanban-toggle {
+    display: flex;
+    gap: 4px;
+    background: var(--color-card-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    padding: 4px;
+    width: fit-content;
+}
+
+.kanban-view-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 18px;
+    border: none;
+    background: transparent;
+    border-radius: 6px;
+    font-family: var(--font-family);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.kanban-view-btn:hover { color: var(--color-text-primary); background: var(--color-border); }
+.kanban-view-btn.active { color: var(--color-sidebar-dark); background: var(--color-gold); }
+.kanban-view-btn .material-icons-outlined { font-size: 16px; }
+
+.kanban-board {
+    display: flex;
+    gap: 20px;
+    padding: 0 32px 32px;
+    overflow-x: auto;
+    min-height: 400px;
+}
+
+.kanban-column {
+    min-width: 340px;
+    max-width: 400px;
+    flex: 1;
+    background: var(--color-card-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-lg);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.kanban-ia { border-color: rgba(245,197,66,0.2); }
+.kanban-human { border-color: rgba(59,130,246,0.2); }
+
+.kanban-col-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 18px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.kanban-col-title {
+    font-weight: 700;
+    font-size: var(--font-size-base);
+    color: var(--color-text-primary);
+}
+
+.kanban-col-count {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    background: var(--color-border);
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+.kanban-col-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.kstat {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-secondary);
+    background: rgba(255,255,255,0.03);
+    padding: 3px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--color-border);
+}
+
+.kanban-cards {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+    max-height: 500px;
+}
+
+.kanban-card {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    padding: 14px;
+    transition: all var(--transition-fast);
+}
+
+.kanban-card:hover {
+    border-color: rgba(245,197,66,0.3);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+.kcard-top {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.kcard-name {
+    font-weight: 700;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-primary);
+    margin-bottom: 4px;
+}
+
+.kcard-product {
+    font-size: var(--font-size-xs);
+    color: var(--color-gold);
+    margin-bottom: 6px;
+}
+
+.kcard-stats {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: var(--font-size-xs);
+    color: var(--color-text-secondary);
+}
+
+.kcard-obs {
+    margin-top: 6px;
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    font-style: italic;
+    border-top: 1px solid var(--color-border);
+    padding-top: 6px;
+}
+
+/* ================================
+   REPORTES
+   ================================ */
+.report-section {
+    margin: 0 32px 20px;
+    background: var(--color-card-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+}
+
+.report-header {
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.report-header h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: var(--font-size-base);
+    font-weight: 700;
+    color: var(--color-text-primary);
+}
+
+.report-header .material-icons-outlined { font-size: 20px; color: var(--color-gold); }
+
+.report-body { padding: 20px 24px; }
+
+/* Report Table */
+.report-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.report-table thead th {
+    padding: 10px 14px;
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    color: var(--color-text-muted);
+    letter-spacing: 0.5px;
+    text-align: left;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.report-table tbody td {
+    padding: 10px 14px;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.report-table tbody td strong { color: var(--color-text-primary); }
+.report-table tbody tr:last-child td { border-bottom: none; }
+.report-table tbody tr:hover { background: var(--color-gold-bg); }
+
+/* Report Grid */
+.report-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+.report-metric {
+    text-align: center;
+    padding: 18px 12px;
+    background: var(--color-bg);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-border);
+}
+
+.rm-val {
+    display: block;
+    font-size: var(--font-size-xl);
+    font-weight: 800;
+    color: var(--color-gold);
+    margin-bottom: 4px;
+}
+
+.rm-label {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    font-weight: 500;
+}
+
+/* Report Bars */
+.report-bars { display: flex; flex-direction: column; gap: 12px; }
+
+.report-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.rb-label { min-width: 100px; font-size: var(--font-size-sm); color: var(--color-text-secondary); }
+.rb-track { flex: 1; height: 24px; background: var(--color-bg); border-radius: 4px; overflow: hidden; border: 1px solid var(--color-border); }
+.rb-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
+.rb-val { min-width: 70px; text-align: right; font-size: var(--font-size-sm); font-weight: 700; color: var(--color-text-primary); }
+
+.report-dual {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+}
+
+.report-dual h4 {
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+}
+
+/* ================================
+   SETTINGS
+   ================================ */
+.settings-section { padding: 32px; }
+
+.settings-card {
+    background: var(--color-card-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-lg);
+    padding: 32px;
+}
+
+.settings-card h3 {
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: 16px;
+}
+
+.settings-card p {
+    color: var(--color-text-secondary);
+    margin-bottom: 8px;
+    font-size: var(--font-size-sm);
+}
+
+.settings-card code {
+    background: var(--color-bg);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: var(--font-size-xs);
+    color: var(--color-gold);
+}
+
+/* ================================
+   RESPONSIVE
+   ================================ */
 @media (max-width: 1024px) {
     .sidebar { transform: translateX(-100%); }
     .sidebar.open { transform: translateX(0); box-shadow: 0 0 40px rgba(0, 0, 0, 0.5); }
@@ -1448,6 +1756,11 @@ body {
     .table-section { margin: 0 16px 16px; }
     .top-bar { padding: 0 20px; }
     .page-title { font-size: var(--font-size-sm); }
+    .kanban-board { padding: 0 16px 16px; }
+    .kanban-column { min-width: 280px; }
+    .report-section { margin: 0 16px 16px; }
+    .report-grid { grid-template-columns: repeat(2, 1fr); }
+    .report-dual { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 640px) {
@@ -1462,5 +1775,9 @@ body {
     .filters-section { padding: 0 12px 8px; }
     .table-section { margin: 0 8px 8px; border-radius: var(--border-radius); }
     .data-table tbody td { padding: 10px 8px; }
-    .form-row { grid-template-columns: 1fr; }
+    .kanban-board { flex-direction: column; padding: 0 12px 12px; }
+    .kanban-column { min-width: auto; max-width: none; }
+    .report-section { margin: 0 8px 12px; }
+    .report-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+    .settings-section { padding: 12px; }
 }
