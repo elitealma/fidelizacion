@@ -446,6 +446,7 @@ body {
 
 .kpi-icon-clientes { background: rgba(59, 130, 246, 0.12); color: var(--color-blue); }
 .kpi-icon-ticket { background: rgba(245, 197, 66, 0.12); color: var(--color-gold); }
+.kpi-icon-llamadas { background: rgba(236, 72, 153, 0.12); color: var(--color-pink); }
 .kpi-icon-pendientes { background: rgba(236, 72, 153, 0.12); color: var(--color-pink); }
 .kpi-icon-retencion { background: rgba(34, 197, 94, 0.12); color: var(--color-bueno); }
 
@@ -1257,11 +1258,191 @@ body {
 /* ================================
    RESPONSIVE
    ================================ */
+/* ================================
+   SIDEBAR STATS
+   ================================ */
+.sidebar-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px 12px 24px;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--border-radius);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    color: var(--color-text-sidebar);
+    font-size: var(--font-size-sm);
+}
+
+.stat-item .material-icons-outlined {
+    font-size: 18px;
+    color: var(--color-gold);
+}
+
+.stat-item span:nth-child(2) {
+    font-weight: 800;
+    color: var(--color-white);
+    font-size: var(--font-size-md);
+    min-width: 20px;
+}
+
+.stat-label {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-sidebar);
+}
+
+/* ================================
+   INTERACTION STATS
+   ================================ */
+.interaction-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    padding: 0 32px 20px;
+}
+
+.istat-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 18px;
+    border-radius: var(--border-radius-lg);
+    border: 1px solid var(--color-border);
+    background: var(--color-card-bg);
+    transition: all var(--transition-base);
+}
+
+.istat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.istat-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.istat-icon .material-icons-outlined { font-size: 20px; }
+
+.istat-wa .istat-icon { background: rgba(34,197,94,0.12); color: #22c55e; }
+.istat-calls .istat-icon { background: rgba(245,197,66,0.12); color: #f5c542; }
+.istat-ventas .istat-icon { background: rgba(59,130,246,0.12); color: #3b82f6; }
+.istat-pending .istat-icon { background: rgba(239,68,68,0.12); color: #ef4444; }
+
+.istat-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.istat-value {
+    font-size: var(--font-size-lg);
+    font-weight: 800;
+    color: var(--color-text-primary);
+    line-height: 1;
+}
+
+.istat-label {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+.istat-detail {
+    margin-left: auto;
+}
+
+.istat-sub {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-secondary);
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+/* ================================
+   PRIORITY BADGES
+   ================================ */
+.prio-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+}
+
+.prio-alta { background: rgba(239,68,68,0.12); color: #f87171; border: 1px solid rgba(239,68,68,0.2); }
+.prio-media { background: rgba(245,158,11,0.12); color: #fbbf24; border: 1px solid rgba(245,158,11,0.2); }
+.prio-baja { background: rgba(34,197,94,0.12); color: #4ade80; border: 1px solid rgba(34,197,94,0.2); }
+
+.cell-prio { min-width: 80px; }
+
+/* ================================
+   WA & CALL STATUS
+   ================================ */
+.wa-status, .call-status {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.6rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.wa-responded { background: rgba(34,197,94,0.12); color: #4ade80; }
+.wa-sent { background: rgba(59,130,246,0.1); color: #60a5fa; }
+.wa-pending { background: rgba(245,158,11,0.1); color: #fbbf24; }
+.wa-none { color: var(--color-text-muted); }
+
+.call-ok { background: rgba(34,197,94,0.12); color: #4ade80; }
+.call-fail { background: rgba(239,68,68,0.1); color: #f87171; }
+.call-pending { background: rgba(245,158,11,0.1); color: #fbbf24; }
+.call-none { color: var(--color-text-muted); }
+
+.cell-wa, .cell-call { min-width: 90px; }
+
+/* Venta badge */
+.venta-badge {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.55rem;
+    font-weight: 700;
+    background: rgba(59,130,246,0.15);
+    color: #60a5fa;
+    border: 1px solid rgba(59,130,246,0.25);
+    margin-top: 3px;
+}
+
+/* Chart body full width */
+.chart-body-full {
+    justify-content: flex-start;
+    padding: 20px 16px;
+}
+
+/* ================================
+   RESPONSIVE
+   ================================ */
 @media (max-width: 1024px) {
     .sidebar { transform: translateX(-100%); }
     .sidebar.open { transform: translateX(0); box-shadow: 0 0 40px rgba(0, 0, 0, 0.5); }
     .main-content { margin-left: 0; }
     .kpi-section { grid-template-columns: repeat(2, 1fr); padding: 16px 20px; gap: 12px; }
+    .interaction-stats { grid-template-columns: repeat(2, 1fr); padding: 0 20px 16px; gap: 10px; }
     .charts-section { grid-template-columns: 1fr; padding: 0 20px 16px; }
     .filters-section { padding: 0 20px 12px; }
     .table-section { margin: 0 16px 16px; }
@@ -1274,8 +1455,9 @@ body {
     .kpi-card { padding: 14px 16px; }
     .kpi-value { font-size: var(--font-size-lg); }
     .kpi-icon-wrap { display: none; }
+    .interaction-stats { grid-template-columns: 1fr 1fr; gap: 8px; padding: 0 12px 12px; }
+    .istat-detail { display: none; }
     .search-bar { display: none; }
-    .user-info { display: none; }
     .charts-section { padding: 0 12px 12px; }
     .filters-section { padding: 0 12px 8px; }
     .table-section { margin: 0 8px 8px; border-radius: var(--border-radius); }
