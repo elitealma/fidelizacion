@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Elite Nutrition - CRM Fidelización Logística</title>
-    <meta name="description" content="CRM de fidelización logística y seguimiento post-venta para Elite Nutrition Colombia">
+    <meta name="description" content="CRM de fidelización logística, seguimiento IA y WhatsApp para Elite Nutrition Colombia">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -54,9 +54,18 @@
         </nav>
 
         <div class="sidebar-footer">
-            <button class="btn-new-task" id="btn-new-task">
-                <span>+</span> NUEVA TAREA
-            </button>
+            <div class="sidebar-stats">
+                <div class="stat-item">
+                    <span class="material-icons-outlined">smart_toy</span>
+                    <span id="sidebar-calls-today">0</span>
+                    <span class="stat-label">Llamadas IA hoy</span>
+                </div>
+                <div class="stat-item">
+                    <span class="material-icons-outlined">chat</span>
+                    <span id="sidebar-wa-today">0</span>
+                    <span class="stat-label">WhatsApp hoy</span>
+                </div>
+            </div>
         </div>
     </aside>
 
@@ -75,24 +84,13 @@
                     <span class="material-icons-outlined">search</span>
                     <input type="text" placeholder="Buscar cliente o pedido..." id="search-input">
                 </div>
-                <div class="user-profile" id="user-profile">
-                    <div class="user-info">
-                        <span class="user-name">Admin</span>
-                        <span class="user-role">ELITE NUTRITION</span>
-                    </div>
-                    <div class="user-avatar">
-                        <span class="material-icons-outlined" style="font-size:24px;color:var(--color-gold);">account_circle</span>
-                    </div>
-                </div>
             </div>
         </header>
 
         <!-- KPI Cards -->
         <section class="kpi-section" id="kpi-section">
             <div class="kpi-card" id="kpi-clientes">
-                <div class="kpi-icon-wrap kpi-icon-clientes">
-                    <span class="material-icons-outlined">group</span>
-                </div>
+                <div class="kpi-icon-wrap kpi-icon-clientes"><span class="material-icons-outlined">group</span></div>
                 <div class="kpi-content">
                     <span class="kpi-label">TOTAL CLIENTES</span>
                     <div class="kpi-body">
@@ -102,9 +100,7 @@
                 </div>
             </div>
             <div class="kpi-card" id="kpi-ticket">
-                <div class="kpi-icon-wrap kpi-icon-ticket">
-                    <span class="material-icons-outlined">payments</span>
-                </div>
+                <div class="kpi-icon-wrap kpi-icon-ticket"><span class="material-icons-outlined">payments</span></div>
                 <div class="kpi-content">
                     <span class="kpi-label">TICKET PROMEDIO</span>
                     <div class="kpi-body">
@@ -113,28 +109,68 @@
                     </div>
                 </div>
             </div>
-            <div class="kpi-card" id="kpi-pendientes">
-                <div class="kpi-icon-wrap kpi-icon-pendientes">
-                    <span class="material-icons-outlined">pending_actions</span>
-                </div>
+            <div class="kpi-card" id="kpi-llamadas">
+                <div class="kpi-icon-wrap kpi-icon-llamadas"><span class="material-icons-outlined">smart_toy</span></div>
                 <div class="kpi-content">
-                    <span class="kpi-label">TAREAS PENDIENTES</span>
+                    <span class="kpi-label">LLAMADAS IA</span>
                     <div class="kpi-body">
-                        <span class="kpi-value" id="kpi-val-pendientes">0</span>
-                        <span class="kpi-change priority" id="kpi-sub-pendientes">Activas</span>
+                        <span class="kpi-value" id="kpi-val-llamadas">0</span>
+                        <span class="kpi-change" id="kpi-sub-llamadas">Total</span>
                     </div>
                 </div>
             </div>
             <div class="kpi-card" id="kpi-retencion">
-                <div class="kpi-icon-wrap kpi-icon-retencion">
-                    <span class="material-icons-outlined">trending_up</span>
-                </div>
+                <div class="kpi-icon-wrap kpi-icon-retencion"><span class="material-icons-outlined">trending_up</span></div>
                 <div class="kpi-content">
-                    <span class="kpi-label">TASA DE RETENCIÓN</span>
+                    <span class="kpi-label">TASA ÉXITO IA</span>
                     <div class="kpi-body">
                         <span class="kpi-value" id="kpi-val-retencion">0%</span>
-                        <span class="kpi-change positive" id="kpi-sub-retencion">Recurrentes</span>
+                        <span class="kpi-change positive" id="kpi-sub-retencion">Exitosas</span>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interaction Stats Cards -->
+        <section class="interaction-stats" id="interaction-stats">
+            <div class="istat-card istat-wa">
+                <div class="istat-icon"><span class="material-icons-outlined">chat</span></div>
+                <div class="istat-info">
+                    <span class="istat-value" id="istat-wa-sent">0</span>
+                    <span class="istat-label">WA Enviados</span>
+                </div>
+                <div class="istat-detail">
+                    <span class="istat-sub" id="istat-wa-responded">0 respondidos</span>
+                </div>
+            </div>
+            <div class="istat-card istat-calls">
+                <div class="istat-icon"><span class="material-icons-outlined">phone_in_talk</span></div>
+                <div class="istat-info">
+                    <span class="istat-value" id="istat-calls-total">0</span>
+                    <span class="istat-label">Llamadas IA</span>
+                </div>
+                <div class="istat-detail">
+                    <span class="istat-sub" id="istat-calls-ok">0 exitosas</span>
+                </div>
+            </div>
+            <div class="istat-card istat-ventas">
+                <div class="istat-icon"><span class="material-icons-outlined">shopping_cart</span></div>
+                <div class="istat-info">
+                    <span class="istat-value" id="istat-ventas">0</span>
+                    <span class="istat-label">Ventas por IA</span>
+                </div>
+                <div class="istat-detail">
+                    <span class="istat-sub" id="istat-ventas-pct">0% conversión</span>
+                </div>
+            </div>
+            <div class="istat-card istat-pending">
+                <div class="istat-icon"><span class="material-icons-outlined">priority_high</span></div>
+                <div class="istat-info">
+                    <span class="istat-value" id="istat-pending">0</span>
+                    <span class="istat-label">Sin Respuesta</span>
+                </div>
+                <div class="istat-detail">
+                    <span class="istat-sub" id="istat-pending-wa">0 WA + 0 Llamadas</span>
                 </div>
             </div>
         </section>
@@ -142,26 +178,31 @@
         <!-- Charts Section -->
         <section class="charts-section" id="charts-section">
             <div class="chart-card" id="chart-segmentacion">
-                <div class="chart-header">
-                    <h3>Segmentación de Clientes</h3>
-                </div>
+                <div class="chart-header"><h3>Segmentación de Clientes</h3></div>
                 <div class="chart-body">
                     <canvas id="canvas-segmentacion" width="280" height="280"></canvas>
                     <div class="chart-legend" id="legend-segmentacion"></div>
                 </div>
             </div>
-            <div class="chart-card" id="chart-logistica">
-                <div class="chart-header">
-                    <h3>Estado de Envíos</h3>
-                </div>
-                <div class="chart-body">
-                    <canvas id="canvas-logistica" width="460" height="280"></canvas>
+            <div class="chart-card" id="chart-interacciones">
+                <div class="chart-header"><h3>Interacciones por Día (últimos 7 días)</h3></div>
+                <div class="chart-body chart-body-full">
+                    <canvas id="canvas-interacciones" width="520" height="260"></canvas>
                 </div>
             </div>
         </section>
 
         <!-- Filters -->
         <section class="filters-section" id="filters-section">
+            <div class="filter-group">
+                <label for="filter-prioridad">Prioridad</label>
+                <select id="filter-prioridad">
+                    <option value="">Todas</option>
+                    <option value="ALTA">🔴 Alta</option>
+                    <option value="MEDIA">🟡 Media</option>
+                    <option value="BAJA">🟢 Baja</option>
+                </select>
+            </div>
             <div class="filter-group">
                 <label for="filter-segmento">Segmento</label>
                 <select id="filter-segmento">
@@ -196,17 +237,11 @@
                     <option value="EVENTO">Evento</option>
                 </select>
             </div>
-            <div class="filter-group">
-                <label for="filter-ciudad">Ciudad</label>
-                <input type="text" id="filter-ciudad" placeholder="Filtrar ciudad...">
-            </div>
             <button class="btn-filter-apply" id="btn-filter-apply">
-                <span class="material-icons-outlined">filter_list</span>
-                Filtrar
+                <span class="material-icons-outlined">filter_list</span> Filtrar
             </button>
             <button class="btn-filter-clear" id="btn-filter-clear">
-                <span class="material-icons-outlined">clear_all</span>
-                Limpiar
+                <span class="material-icons-outlined">clear_all</span> Limpiar
             </button>
         </section>
 
@@ -219,12 +254,8 @@
                     <button class="tab" id="tab-archivadas" data-tab="ARCHIVADA">Archivadas</button>
                 </div>
                 <div class="tabs-right">
-                    <button class="icon-btn" id="btn-refresh" title="Refrescar">
-                        <span class="material-icons-outlined">refresh</span>
-                    </button>
-                    <button class="icon-btn" id="btn-download" title="Descargar CSV">
-                        <span class="material-icons-outlined">download</span>
-                    </button>
+                    <button class="icon-btn" id="btn-refresh" title="Refrescar"><span class="material-icons-outlined">refresh</span></button>
+                    <button class="icon-btn" id="btn-download" title="Descargar CSV"><span class="material-icons-outlined">download</span></button>
                 </div>
             </div>
 
@@ -232,22 +263,23 @@
                 <table class="data-table" id="data-table">
                     <thead>
                         <tr>
+                            <th>PRIORIDAD</th>
                             <th>CLIENTE &<br>UBICACIÓN</th>
                             <th>WHATSAPP</th>
-                            <th>SEGMENTO &<br>ADQUISICIÓN</th>
+                            <th>SEGMENTO &<br>CANAL</th>
                             <th>PRODUCTO &<br>TICKET</th>
                             <th>ESTADO<br>LOGÍSTICO</th>
-                            <th>LLAMADA<br>5D</th>
-                            <th>LLAMADA<br>15D</th>
-                            <th>LLAMADA<br>25D</th>
-                            <th>LLAMADA<br>35D</th>
+                            <th>WHATSAPP<br>ENVIADO</th>
+                            <th>LLAMADA<br>IA</th>
+                            <th>5D</th>
+                            <th>15D</th>
+                            <th>25D</th>
+                            <th>35D</th>
                             <th>OBSERVACIONES</th>
                             <th>CALIDAD</th>
                         </tr>
                     </thead>
-                    <tbody id="table-body">
-                        <!-- Dynamic rows rendered by JS -->
-                    </tbody>
+                    <tbody id="table-body"></tbody>
                 </table>
             </div>
 
@@ -262,132 +294,12 @@
         </section>
     </main>
 
-    <!-- Modal Nueva Tarea -->
-    <div class="modal-overlay" id="modal-overlay">
-        <div class="modal" id="modal-new-task">
-            <div class="modal-header">
-                <h2>Nueva Tarea de Seguimiento</h2>
-                <button class="modal-close" id="modal-close">
-                    <span class="material-icons-outlined">close</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <!-- Cliente -->
-                <div class="form-section-title">Datos del Cliente</div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="task-nombre">Nombre Completo</label>
-                        <input type="text" id="task-nombre" placeholder="Nombre del cliente">
-                    </div>
-                    <div class="form-group">
-                        <label for="task-whatsapp">WhatsApp (+57)</label>
-                        <input type="tel" id="task-whatsapp" placeholder="+573001234567" value="+57">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="task-departamento">Departamento</label>
-                        <input type="text" id="task-departamento" placeholder="Ej: Cundinamarca">
-                    </div>
-                    <div class="form-group">
-                        <label for="task-ciudad">Ciudad</label>
-                        <input type="text" id="task-ciudad" placeholder="Ej: Bogotá">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="task-etiqueta">Segmento</label>
-                        <select id="task-etiqueta">
-                            <option value="NUEVO">NUEVO</option>
-                            <option value="OCASIONAL">OCASIONAL</option>
-                            <option value="RECURRENTE">RECURRENTE</option>
-                            <option value="PERDIDO">PERDIDO</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="task-canal">Canal Adquisición</label>
-                        <select id="task-canal">
-                            <option value="ORGANICO">ORGÁNICO</option>
-                            <option value="ANUNCIO">ANUNCIO</option>
-                            <option value="EVENTO">EVENTO</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Pedido -->
-                <div class="form-section-title">Datos del Pedido</div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="task-producto">Producto</label>
-                        <input type="text" id="task-producto" placeholder="Ej: Proteína Whey 2lb">
-                    </div>
-                    <div class="form-group">
-                        <label for="task-ticket">Ticket ($ COP)</label>
-                        <input type="number" id="task-ticket" placeholder="85000" min="0" step="1000">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="task-area">Área de Ventas</label>
-                        <select id="task-area">
-                            <option value="WHATSAPP">WhatsApp</option>
-                            <option value="RED_SOCIAL">Red Social</option>
-                            <option value="SHOPIFY">Shopify</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="task-estado-log">Estado Logístico</label>
-                        <select id="task-estado-log">
-                            <option value="GUIA_GENERADA">Guía Generada</option>
-                            <option value="EN_REPARTO">En Reparto</option>
-                            <option value="EN_OFICINA">En Oficina</option>
-                            <option value="ENTREGADO_AL_CLIENTE">Entregado al Cliente</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Seguimiento -->
-                <div class="form-section-title">Seguimiento</div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="task-asesor">Asesor</label>
-                        <select id="task-asesor">
-                            <option value="">Seleccionar asesor...</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="task-calidad">Calidad</label>
-                        <select id="task-calidad">
-                            <option value="BUENO">BUENO</option>
-                            <option value="REGULAR">REGULAR</option>
-                            <option value="CRITICO">CRÍTICO</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="task-observaciones">Observaciones</label>
-                    <textarea id="task-observaciones" rows="3" placeholder="Notas sobre el cliente o pedido..."></textarea>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-cancel" id="btn-cancel">Cancelar</button>
-                <button class="btn-save" id="btn-save">
-                    <span class="material-icons-outlined">save</span>
-                    Guardar Tarea
-                </button>
-            </div>
-        </div>
-    </div>
-
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // Supabase Configuration - Proyecto FACTURACION AUTOMATICA
         const SUPABASE_URL = 'https://rqucbsuafirnohhogdry.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJxdWNic3VhZmlybm9oaG9nZHJ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUwNzE4MjQsImV4cCI6MjA5MDY0NzgyNH0.DlR_FtgQcIZkT5PtpHbKWXdjtCBaGMt-ph5pC2EmZJ8';
-        // The CDN exposes `supabase` as a global with createClient method
         const _supa = window.supabase;
         var supabase = _supa.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        console.log('Supabase client initialized:', typeof supabase.from === 'function' ? '✅ OK' : '❌ FAIL');
     </script>
     <script src="app.js"></script>
 </body>
