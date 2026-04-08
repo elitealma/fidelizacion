@@ -384,7 +384,10 @@
         // Supabase Configuration - Proyecto FACTURACION AUTOMATICA
         const SUPABASE_URL = 'https://rqucbsuafirnohhogdry.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJxdWNic3VhZmlybm9oaG9nZHJ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUwNzE4MjQsImV4cCI6MjA5MDY0NzgyNH0.DlR_FtgQcIZkT5PtpHbKWXdjtCBaGMt-ph5pC2EmZJ8';
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        // The CDN exposes `supabase` as a global with createClient method
+        const _supa = window.supabase;
+        var supabase = _supa.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        console.log('Supabase client initialized:', typeof supabase.from === 'function' ? '✅ OK' : '❌ FAIL');
     </script>
     <script src="app.js"></script>
 </body>
