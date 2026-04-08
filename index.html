@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elite Nutrition - Seguimiento de Tareas</title>
-    <meta name="description" content="Sistema de seguimiento de tareas y fidelización de clientes - Elite Nutrition Fidelización">
+    <title>Elite Nutrition - CRM Fidelización Logística</title>
+    <meta name="description" content="CRM de fidelización logística y seguimiento post-venta para Elite Nutrition Colombia">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -27,23 +27,27 @@
         </div>
 
         <nav class="sidebar-nav">
-            <a href="#" class="nav-item" id="nav-tablero">
+            <a href="#" class="nav-item active" id="nav-tablero" data-section="tablero">
                 <span class="material-icons-outlined">dashboard</span>
                 <span class="nav-label">Tablero</span>
             </a>
-            <a href="#" class="nav-item active" id="nav-tareas">
+            <a href="#" class="nav-item" id="nav-tareas" data-section="tareas">
                 <span class="material-icons-outlined">check_box</span>
                 <span class="nav-label">Tareas</span>
             </a>
-            <a href="#" class="nav-item" id="nav-clientes">
+            <a href="#" class="nav-item" id="nav-clientes" data-section="clientes">
                 <span class="material-icons-outlined">group</span>
                 <span class="nav-label">Clientes</span>
             </a>
-            <a href="#" class="nav-item" id="nav-reportes">
+            <a href="#" class="nav-item" id="nav-logistica" data-section="logistica">
+                <span class="material-icons-outlined">local_shipping</span>
+                <span class="nav-label">Logística</span>
+            </a>
+            <a href="#" class="nav-item" id="nav-reportes" data-section="reportes">
                 <span class="material-icons-outlined">analytics</span>
                 <span class="nav-label">Reportes</span>
             </a>
-            <a href="#" class="nav-item" id="nav-ajustes">
+            <a href="#" class="nav-item" id="nav-ajustes" data-section="ajustes">
                 <span class="material-icons-outlined">settings</span>
                 <span class="nav-label">Ajustes</span>
             </a>
@@ -64,78 +68,161 @@
                 <button class="menu-toggle" id="menu-toggle">
                     <span class="material-icons-outlined">menu</span>
                 </button>
-                <h1 class="page-title">SEGUIMIENTO DE TAREAS</h1>
+                <h1 class="page-title" id="page-title">TABLERO</h1>
             </div>
             <div class="top-bar-right">
                 <div class="search-bar">
                     <span class="material-icons-outlined">search</span>
-                    <input type="text" placeholder="Buscar cliente..." id="search-input">
+                    <input type="text" placeholder="Buscar cliente o pedido..." id="search-input">
                 </div>
                 <div class="user-profile" id="user-profile">
                     <div class="user-info">
-                        <span class="user-name">Daniela Vega</span>
-                        <span class="user-role">ASESORA</span>
+                        <span class="user-name">Admin</span>
+                        <span class="user-role">ELITE NUTRITION</span>
                     </div>
                     <div class="user-avatar">
-                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=face" alt="Avatar" id="user-avatar-img">
+                        <span class="material-icons-outlined" style="font-size:24px;color:var(--color-gold);">account_circle</span>
                     </div>
                 </div>
             </div>
         </header>
 
         <!-- KPI Cards -->
-        <section class="kpi-section">
+        <section class="kpi-section" id="kpi-section">
             <div class="kpi-card" id="kpi-clientes">
-                <div class="kpi-header">
-                    <span class="kpi-label">TOTAL CLIENTES</span>
+                <div class="kpi-icon-wrap kpi-icon-clientes">
+                    <span class="material-icons-outlined">group</span>
                 </div>
-                <div class="kpi-body">
-                    <span class="kpi-value">1,284</span>
-                    <span class="kpi-change positive">+12%</span>
+                <div class="kpi-content">
+                    <span class="kpi-label">TOTAL CLIENTES</span>
+                    <div class="kpi-body">
+                        <span class="kpi-value" id="kpi-val-clientes">0</span>
+                        <span class="kpi-change positive" id="kpi-growth-clientes">+0%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="kpi-card" id="kpi-ticket">
+                <div class="kpi-icon-wrap kpi-icon-ticket">
+                    <span class="material-icons-outlined">payments</span>
+                </div>
+                <div class="kpi-content">
+                    <span class="kpi-label">TICKET PROMEDIO</span>
+                    <div class="kpi-body">
+                        <span class="kpi-value" id="kpi-val-ticket">$0</span>
+                        <span class="kpi-change" id="kpi-sub-ticket">COP</span>
+                    </div>
                 </div>
             </div>
             <div class="kpi-card" id="kpi-pendientes">
-                <div class="kpi-header">
+                <div class="kpi-icon-wrap kpi-icon-pendientes">
+                    <span class="material-icons-outlined">pending_actions</span>
+                </div>
+                <div class="kpi-content">
                     <span class="kpi-label">TAREAS PENDIENTES</span>
-                </div>
-                <div class="kpi-body">
-                    <span class="kpi-value">42</span>
-                    <span class="kpi-change priority">Priority</span>
-                </div>
-            </div>
-            <div class="kpi-card" id="kpi-calidad">
-                <div class="kpi-header">
-                    <span class="kpi-label">CALIDAD MEDIA</span>
-                </div>
-                <div class="kpi-body">
-                    <span class="kpi-value">A+</span>
-                    <span class="kpi-change excellent">Excelente</span>
+                    <div class="kpi-body">
+                        <span class="kpi-value" id="kpi-val-pendientes">0</span>
+                        <span class="kpi-change priority" id="kpi-sub-pendientes">Activas</span>
+                    </div>
                 </div>
             </div>
-            <div class="kpi-card" id="kpi-conversion">
-                <div class="kpi-header">
-                    <span class="kpi-label">CONVERSIÓN</span>
+            <div class="kpi-card" id="kpi-retencion">
+                <div class="kpi-icon-wrap kpi-icon-retencion">
+                    <span class="material-icons-outlined">trending_up</span>
                 </div>
-                <div class="kpi-body">
-                    <span class="kpi-value">68%</span>
-                    <span class="kpi-change peak">Peak</span>
+                <div class="kpi-content">
+                    <span class="kpi-label">TASA DE RETENCIÓN</span>
+                    <div class="kpi-body">
+                        <span class="kpi-value" id="kpi-val-retencion">0%</span>
+                        <span class="kpi-change positive" id="kpi-sub-retencion">Recurrentes</span>
+                    </div>
                 </div>
             </div>
         </section>
 
+        <!-- Charts Section -->
+        <section class="charts-section" id="charts-section">
+            <div class="chart-card" id="chart-segmentacion">
+                <div class="chart-header">
+                    <h3>Segmentación de Clientes</h3>
+                </div>
+                <div class="chart-body">
+                    <canvas id="canvas-segmentacion" width="280" height="280"></canvas>
+                    <div class="chart-legend" id="legend-segmentacion"></div>
+                </div>
+            </div>
+            <div class="chart-card" id="chart-logistica">
+                <div class="chart-header">
+                    <h3>Estado de Envíos</h3>
+                </div>
+                <div class="chart-body">
+                    <canvas id="canvas-logistica" width="460" height="280"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filters -->
+        <section class="filters-section" id="filters-section">
+            <div class="filter-group">
+                <label for="filter-segmento">Segmento</label>
+                <select id="filter-segmento">
+                    <option value="">Todos</option>
+                    <option value="NUEVO">Nuevo</option>
+                    <option value="PERDIDO">Perdido</option>
+                    <option value="OCASIONAL">Ocasional</option>
+                    <option value="RECURRENTE">Recurrente</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="filter-logistico">Estado Logístico</label>
+                <select id="filter-logistico">
+                    <option value="">Todos</option>
+                    <option value="GUIA_GENERADA">Guía Generada</option>
+                    <option value="EN_REPARTO">En Reparto</option>
+                    <option value="EN_OFICINA">En Oficina</option>
+                    <option value="ENTREGADO_AL_CLIENTE">Entregado</option>
+                    <option value="HABLAR_CON_ASESOR">Hablar con Asesor</option>
+                    <option value="RETRASO_O_MOLESTIA">Retraso/Molestia</option>
+                    <option value="NOVEDADES">Novedades</option>
+                    <option value="GARANTIAS">Garantías</option>
+                    <option value="DEVOLUCIONES">Devoluciones</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="filter-canal">Canal</label>
+                <select id="filter-canal">
+                    <option value="">Todos</option>
+                    <option value="ORGANICO">Orgánico</option>
+                    <option value="ANUNCIO">Anuncio</option>
+                    <option value="EVENTO">Evento</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="filter-ciudad">Ciudad</label>
+                <input type="text" id="filter-ciudad" placeholder="Filtrar ciudad...">
+            </div>
+            <button class="btn-filter-apply" id="btn-filter-apply">
+                <span class="material-icons-outlined">filter_list</span>
+                Filtrar
+            </button>
+            <button class="btn-filter-clear" id="btn-filter-clear">
+                <span class="material-icons-outlined">clear_all</span>
+                Limpiar
+            </button>
+        </section>
+
         <!-- Tabs & Table -->
-        <section class="table-section">
+        <section class="table-section" id="table-section">
             <div class="table-tabs">
                 <div class="tabs-left">
-                    <button class="tab active" id="tab-activas" data-tab="activas">Activas</button>
-                    <button class="tab" id="tab-completadas" data-tab="completadas">Completadas</button>
-                    <button class="tab" id="tab-archivadas" data-tab="archivadas">Archivadas</button>
+                    <button class="tab active" id="tab-activas" data-tab="ACTIVA">Activas</button>
+                    <button class="tab" id="tab-completadas" data-tab="COMPLETADA">Completadas</button>
+                    <button class="tab" id="tab-archivadas" data-tab="ARCHIVADA">Archivadas</button>
                 </div>
                 <div class="tabs-right">
-                    <button class="icon-btn" id="btn-filter" title="Filtrar">
-                        <span class="material-icons-outlined">filter_list</span>
+                    <button class="icon-btn" id="btn-refresh" title="Refrescar">
+                        <span class="material-icons-outlined">refresh</span>
                     </button>
-                    <button class="icon-btn" id="btn-download" title="Descargar">
+                    <button class="icon-btn" id="btn-download" title="Descargar CSV">
                         <span class="material-icons-outlined">download</span>
                     </button>
                 </div>
@@ -145,11 +232,11 @@
                 <table class="data-table" id="data-table">
                     <thead>
                         <tr>
-                            <th>HORA</th>
-                            <th>NOMBRE DEL<br>CLIENTE</th>
+                            <th>CLIENTE &<br>UBICACIÓN</th>
                             <th>WHATSAPP</th>
-                            <th>PRODUCTO</th>
-                            <th>TIPO<br>CLIENTE</th>
+                            <th>SEGMENTO &<br>ADQUISICIÓN</th>
+                            <th>PRODUCTO &<br>TICKET</th>
+                            <th>ESTADO<br>LOGÍSTICO</th>
                             <th>LLAMADA<br>5D</th>
                             <th>LLAMADA<br>15D</th>
                             <th>LLAMADA<br>25D</th>
@@ -159,66 +246,17 @@
                         </tr>
                     </thead>
                     <tbody id="table-body">
-                        <tr>
-                            <td class="cell-hora">09:00</td>
-                            <td class="cell-nombre"><strong>Alessandra<br>Rossi</strong></td>
-                            <td class="cell-whatsapp">+52 55<br>4123 0982</td>
-                            <td class="cell-producto"><span class="product-badge">RELOJ DE<br>ORO</span></td>
-                            <td class="cell-check"><span class="check-icon checked"><span class="material-icons-outlined">check_box</span></span></td>
-                            <td class="cell-check"><span class="check-icon unchecked"><span class="material-icons-outlined">check_box_outline_blank</span></span></td>
-                            <td class="cell-check"><span class="check-icon unchecked"><span class="material-icons-outlined">check_box_outline_blank</span></span></td>
-                            <td class="cell-check"><span class="check-icon unchecked"><span class="material-icons-outlined">check_box_outline_blank</span></span></td>
-                            <td class="cell-obs"><em>Interesada en grabado personalizado...</em></td>
-                            <td class="cell-calidad"><span class="calidad-badge bueno">● BUENO</span></td>
-                        </tr>
-                        <tr>
-                            <td class="cell-hora">10:30</td>
-                            <td class="cell-nombre"><strong>Julian<br>Vancini</strong></td>
-                            <td class="cell-whatsapp">+52 55<br>8821 3344</td>
-                            <td class="cell-producto"><span class="product-badge">ANILLO<br>DIAMANTE</span></td>
-                            <td class="cell-check"><span class="check-icon checked"><span class="material-icons-outlined">check_box</span></span></td>
-                            <td class="cell-check"><span class="check-icon checked"><span class="material-icons-outlined">check_box</span></span></td>
-                            <td class="cell-check"><span class="check-icon unchecked"><span class="material-icons-outlined">check_box_outline_blank</span></span></td>
-                            <td class="cell-check"><span class="check-icon unchecked"><span class="material-icons-outlined">check_box_outline_blank</span></span></td>
-                            <td class="cell-obs"><em>Pendiente confirmar talle final</em></td>
-                            <td class="cell-calidad"><span class="calidad-badge regular">● REGULAR</span></td>
-                        </tr>
-                        <tr>
-                            <td class="cell-hora">13:15</td>
-                            <td class="cell-nombre"><strong>Isabella<br>Conti</strong></td>
-                            <td class="cell-whatsapp">+52 55<br>9980 1122</td>
-                            <td class="cell-producto"><span class="product-badge">COLLAR<br>PLATINO</span></td>
-                            <td class="cell-check"><span class="check-icon checked"><span class="material-icons-outlined">check_box</span></span></td>
-                            <td class="cell-check"><span class="check-icon checked"><span class="material-icons-outlined">check_box</span></span></td>
-                            <td class="cell-check"><span class="check-icon checked"><span class="material-icons-outlined">check_box</span></span></td>
-                            <td class="cell-check"><span class="check-icon unchecked"><span class="material-icons-outlined">check_box_outline_blank</span></span></td>
-                            <td class="cell-obs"><em>Seguimiento excelente, VIP</em></td>
-                            <td class="cell-calidad"><span class="calidad-badge bueno">● BUENO</span></td>
-                        </tr>
-                        <tr>
-                            <td class="cell-hora">16:45</td>
-                            <td class="cell-nombre"><strong>Marco<br>Valenti</strong></td>
-                            <td class="cell-whatsapp">+52 55<br>1234 5678</td>
-                            <td class="cell-producto"><span class="product-badge">BRAZALETE</span></td>
-                            <td class="cell-check"><span class="check-icon checked"><span class="material-icons-outlined">check_box</span></span></td>
-                            <td class="cell-check"><span class="check-icon checked"><span class="material-icons-outlined">check_box</span></span></td>
-                            <td class="cell-check"><span class="check-icon checked"><span class="material-icons-outlined">check_box</span></span></td>
-                            <td class="cell-check"><span class="check-icon unchecked"><span class="material-icons-outlined">check_box_outline_blank</span></span></td>
-                            <td class="cell-obs"><em>Cliente molesto por demora envío</em></td>
-                            <td class="cell-calidad"><span class="calidad-badge critico">● CRÍTICO</span></td>
-                        </tr>
+                        <!-- Dynamic rows rendered by JS -->
                     </tbody>
                 </table>
             </div>
 
             <div class="table-footer">
-                <span class="table-info">Mostrando 4 de 1,284 registros</span>
+                <span class="table-info" id="table-info">Cargando...</span>
                 <div class="pagination" id="pagination">
-                    <button class="page-btn" id="page-prev"><</button>
-                    <button class="page-btn active" data-page="1">1</button>
-                    <button class="page-btn" data-page="2">2</button>
-                    <button class="page-btn" data-page="3">3</button>
-                    <button class="page-btn" id="page-next">></button>
+                    <button class="page-btn" id="page-prev">&lt;</button>
+                    <span class="page-indicator" id="page-indicator">1</span>
+                    <button class="page-btn" id="page-next">&gt;</button>
                 </div>
             </div>
         </section>
@@ -228,55 +266,124 @@
     <div class="modal-overlay" id="modal-overlay">
         <div class="modal" id="modal-new-task">
             <div class="modal-header">
-                <h2>Nueva Tarea</h2>
+                <h2>Nueva Tarea de Seguimiento</h2>
                 <button class="modal-close" id="modal-close">
                     <span class="material-icons-outlined">close</span>
                 </button>
             </div>
             <div class="modal-body">
-                <div class="form-group">
-                    <label for="task-hora">Hora</label>
-                    <input type="time" id="task-hora" value="09:00">
+                <!-- Cliente -->
+                <div class="form-section-title">Datos del Cliente</div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="task-nombre">Nombre Completo</label>
+                        <input type="text" id="task-nombre" placeholder="Nombre del cliente">
+                    </div>
+                    <div class="form-group">
+                        <label for="task-whatsapp">WhatsApp (+57)</label>
+                        <input type="tel" id="task-whatsapp" placeholder="+573001234567" value="+57">
+                    </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="task-nombre">Nombre del Cliente</label>
-                        <input type="text" id="task-nombre" placeholder="Nombre completo">
+                        <label for="task-departamento">Departamento</label>
+                        <input type="text" id="task-departamento" placeholder="Ej: Cundinamarca">
                     </div>
                     <div class="form-group">
-                        <label for="task-whatsapp">WhatsApp</label>
-                        <input type="tel" id="task-whatsapp" placeholder="+52 55 XXXX XXXX">
+                        <label for="task-ciudad">Ciudad</label>
+                        <input type="text" id="task-ciudad" placeholder="Ej: Bogotá">
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="task-producto">Producto</label>
-                    <input type="text" id="task-producto" placeholder="Ej: RELOJ DE ORO">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="task-etiqueta">Segmento</label>
+                        <select id="task-etiqueta">
+                            <option value="NUEVO">NUEVO</option>
+                            <option value="OCASIONAL">OCASIONAL</option>
+                            <option value="RECURRENTE">RECURRENTE</option>
+                            <option value="PERDIDO">PERDIDO</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="task-canal">Canal Adquisición</label>
+                        <select id="task-canal">
+                            <option value="ORGANICO">ORGÁNICO</option>
+                            <option value="ANUNCIO">ANUNCIO</option>
+                            <option value="EVENTO">EVENTO</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Pedido -->
+                <div class="form-section-title">Datos del Pedido</div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="task-producto">Producto</label>
+                        <input type="text" id="task-producto" placeholder="Ej: Proteína Whey 2lb">
+                    </div>
+                    <div class="form-group">
+                        <label for="task-ticket">Ticket ($ COP)</label>
+                        <input type="number" id="task-ticket" placeholder="85000" min="0" step="1000">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="task-area">Área de Ventas</label>
+                        <select id="task-area">
+                            <option value="WHATSAPP">WhatsApp</option>
+                            <option value="RED_SOCIAL">Red Social</option>
+                            <option value="SHOPIFY">Shopify</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="task-estado-log">Estado Logístico</label>
+                        <select id="task-estado-log">
+                            <option value="GUIA_GENERADA">Guía Generada</option>
+                            <option value="EN_REPARTO">En Reparto</option>
+                            <option value="EN_OFICINA">En Oficina</option>
+                            <option value="ENTREGADO_AL_CLIENTE">Entregado al Cliente</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Seguimiento -->
+                <div class="form-section-title">Seguimiento</div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="task-asesor">Asesor</label>
+                        <select id="task-asesor">
+                            <option value="">Seleccionar asesor...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="task-calidad">Calidad</label>
+                        <select id="task-calidad">
+                            <option value="BUENO">BUENO</option>
+                            <option value="REGULAR">REGULAR</option>
+                            <option value="CRITICO">CRÍTICO</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="task-observaciones">Observaciones</label>
-                    <textarea id="task-observaciones" rows="3" placeholder="Notas sobre el cliente..."></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="task-calidad">Calidad</label>
-                    <select id="task-calidad">
-                        <option value="bueno">BUENO</option>
-                        <option value="regular">REGULAR</option>
-                        <option value="critico">CRÍTICO</option>
-                    </select>
+                    <textarea id="task-observaciones" rows="3" placeholder="Notas sobre el cliente o pedido..."></textarea>
                 </div>
             </div>
             <div class="modal-footer">
                 <button class="btn-cancel" id="btn-cancel">Cancelar</button>
-                <button class="btn-save" id="btn-save">Guardar Tarea</button>
+                <button class="btn-save" id="btn-save">
+                    <span class="material-icons-outlined">save</span>
+                    Guardar Tarea
+                </button>
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // Supabase Configuration
-        const SUPABASE_URL = 'https://uubivtpzkrqqkrrbtvey.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV1Yml2dHB6a3JxcWtycmJ0dmV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA5MTkyMzMsImV4cCI6MjA4NjQ5NTIzM30.QkiTS8HgjY09SQwOMymRv1Jt6eZpBeHnN-ALQqY_fy8';
+        // Supabase Configuration - Proyecto FACTURACION AUTOMATICA
+        const SUPABASE_URL = 'https://rqucbsuafirnohhogdry.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJxdWNic3VhZmlybm9oaG9nZHJ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUwNzE4MjQsImV4cCI6MjA5MDY0NzgyNH0.DlR_FtgQcIZkT5PtpHbKWXdjtCBaGMt-ph5pC2EmZJ8';
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     </script>
     <script src="app.js"></script>
