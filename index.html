@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elite Nutrition - CRM Fidelización Logística</title>
-    <meta name="description" content="CRM de fidelización logística, seguimiento IA y WhatsApp para Elite Nutrition Colombia">
+    <title>Elite Nutrition - Fidelización</title>
+    <meta name="description" content="Panel de fidelización y seguimiento post-venta para el equipo de Elite Nutrition Colombia">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -16,43 +16,31 @@
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <div class="brand">
-                <div class="brand-icon">
-                    <span class="material-icons-outlined">shield</span>
-                </div>
+                <div class="brand-icon"><span class="material-icons-outlined">shield</span></div>
                 <div class="brand-text">
                     <span class="brand-name">ELITE NUTRITION</span>
                     <span class="brand-subtitle">FIDELIZACIÓN</span>
                 </div>
             </div>
         </div>
-
         <nav class="sidebar-nav">
-            <a href="#" class="nav-item active" id="nav-tablero" data-section="tablero">
+            <a href="#" class="nav-item active" data-section="tablero">
                 <span class="material-icons-outlined">dashboard</span>
                 <span class="nav-label">Tablero</span>
             </a>
-            <a href="#" class="nav-item" id="nav-tareas" data-section="tareas">
-                <span class="material-icons-outlined">check_box</span>
+            <a href="#" class="nav-item" data-section="tareas">
+                <span class="material-icons-outlined">view_kanban</span>
                 <span class="nav-label">Tareas</span>
             </a>
-            <a href="#" class="nav-item" id="nav-clientes" data-section="clientes">
-                <span class="material-icons-outlined">group</span>
-                <span class="nav-label">Clientes</span>
-            </a>
-            <a href="#" class="nav-item" id="nav-logistica" data-section="logistica">
-                <span class="material-icons-outlined">local_shipping</span>
-                <span class="nav-label">Logística</span>
-            </a>
-            <a href="#" class="nav-item" id="nav-reportes" data-section="reportes">
+            <a href="#" class="nav-item" data-section="reportes">
                 <span class="material-icons-outlined">analytics</span>
                 <span class="nav-label">Reportes</span>
             </a>
-            <a href="#" class="nav-item" id="nav-ajustes" data-section="ajustes">
+            <a href="#" class="nav-item" data-section="ajustes">
                 <span class="material-icons-outlined">settings</span>
                 <span class="nav-label">Ajustes</span>
             </a>
         </nav>
-
         <div class="sidebar-footer">
             <div class="sidebar-stats">
                 <div class="stat-item">
@@ -74,9 +62,7 @@
         <!-- Top Bar -->
         <header class="top-bar">
             <div class="top-bar-left">
-                <button class="menu-toggle" id="menu-toggle">
-                    <span class="material-icons-outlined">menu</span>
-                </button>
+                <button class="menu-toggle" id="menu-toggle"><span class="material-icons-outlined">menu</span></button>
                 <h1 class="page-title" id="page-title">TABLERO</h1>
             </div>
             <div class="top-bar-right">
@@ -87,211 +73,205 @@
             </div>
         </header>
 
-        <!-- KPI Cards -->
-        <section class="kpi-section" id="kpi-section">
-            <div class="kpi-card" id="kpi-clientes">
-                <div class="kpi-icon-wrap kpi-icon-clientes"><span class="material-icons-outlined">group</span></div>
-                <div class="kpi-content">
-                    <span class="kpi-label">TOTAL CLIENTES</span>
-                    <div class="kpi-body">
-                        <span class="kpi-value" id="kpi-val-clientes">0</span>
-                        <span class="kpi-change positive" id="kpi-growth-clientes">+0%</span>
+        <!-- ═══════════════════════════════════════════ -->
+        <!-- SECTION: TABLERO                            -->
+        <!-- ═══════════════════════════════════════════ -->
+        <div id="view-tablero">
+            <!-- KPI Cards -->
+            <section class="kpi-section">
+                <div class="kpi-card">
+                    <div class="kpi-icon-wrap kpi-icon-clientes"><span class="material-icons-outlined">group</span></div>
+                    <div class="kpi-content">
+                        <span class="kpi-label">TOTAL CLIENTES</span>
+                        <div class="kpi-body"><span class="kpi-value" id="kpi-val-clientes">0</span></div>
                     </div>
                 </div>
-            </div>
-            <div class="kpi-card" id="kpi-ticket">
-                <div class="kpi-icon-wrap kpi-icon-ticket"><span class="material-icons-outlined">payments</span></div>
-                <div class="kpi-content">
-                    <span class="kpi-label">TICKET PROMEDIO</span>
-                    <div class="kpi-body">
-                        <span class="kpi-value" id="kpi-val-ticket">$0</span>
-                        <span class="kpi-change" id="kpi-sub-ticket">COP</span>
+                <div class="kpi-card">
+                    <div class="kpi-icon-wrap kpi-icon-ticket"><span class="material-icons-outlined">payments</span></div>
+                    <div class="kpi-content">
+                        <span class="kpi-label">TICKET PROMEDIO</span>
+                        <div class="kpi-body"><span class="kpi-value" id="kpi-val-ticket">$0</span><span class="kpi-change">COP</span></div>
                     </div>
                 </div>
-            </div>
-            <div class="kpi-card" id="kpi-llamadas">
-                <div class="kpi-icon-wrap kpi-icon-llamadas"><span class="material-icons-outlined">smart_toy</span></div>
-                <div class="kpi-content">
-                    <span class="kpi-label">LLAMADAS IA</span>
-                    <div class="kpi-body">
-                        <span class="kpi-value" id="kpi-val-llamadas">0</span>
-                        <span class="kpi-change" id="kpi-sub-llamadas">Total</span>
+                <div class="kpi-card">
+                    <div class="kpi-icon-wrap kpi-icon-llamadas"><span class="material-icons-outlined">smart_toy</span></div>
+                    <div class="kpi-content">
+                        <span class="kpi-label">LLAMADAS IA</span>
+                        <div class="kpi-body"><span class="kpi-value" id="kpi-val-llamadas">0</span><span class="kpi-change" id="kpi-sub-llamadas">0 exitosas</span></div>
                     </div>
                 </div>
-            </div>
-            <div class="kpi-card" id="kpi-retencion">
-                <div class="kpi-icon-wrap kpi-icon-retencion"><span class="material-icons-outlined">trending_up</span></div>
-                <div class="kpi-content">
-                    <span class="kpi-label">TASA ÉXITO IA</span>
-                    <div class="kpi-body">
-                        <span class="kpi-value" id="kpi-val-retencion">0%</span>
-                        <span class="kpi-change positive" id="kpi-sub-retencion">Exitosas</span>
+                <div class="kpi-card">
+                    <div class="kpi-icon-wrap kpi-icon-retencion"><span class="material-icons-outlined">trending_up</span></div>
+                    <div class="kpi-content">
+                        <span class="kpi-label">TASA ÉXITO IA</span>
+                        <div class="kpi-body"><span class="kpi-value" id="kpi-val-exito">0%</span><span class="kpi-change positive">Exitosas</span></div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Interaction Stats Cards -->
-        <section class="interaction-stats" id="interaction-stats">
-            <div class="istat-card istat-wa">
-                <div class="istat-icon"><span class="material-icons-outlined">chat</span></div>
-                <div class="istat-info">
-                    <span class="istat-value" id="istat-wa-sent">0</span>
-                    <span class="istat-label">WA Enviados</span>
+            <!-- Interaction Stats -->
+            <section class="interaction-stats">
+                <div class="istat-card istat-wa">
+                    <div class="istat-icon"><span class="material-icons-outlined">chat</span></div>
+                    <div class="istat-info"><span class="istat-value" id="istat-wa-sent">0</span><span class="istat-label">WA Enviados</span></div>
+                    <div class="istat-detail"><span class="istat-sub" id="istat-wa-responded">0 respondidos</span></div>
                 </div>
-                <div class="istat-detail">
-                    <span class="istat-sub" id="istat-wa-responded">0 respondidos</span>
+                <div class="istat-card istat-calls">
+                    <div class="istat-icon"><span class="material-icons-outlined">phone_in_talk</span></div>
+                    <div class="istat-info"><span class="istat-value" id="istat-calls-total">0</span><span class="istat-label">Llamadas IA</span></div>
+                    <div class="istat-detail"><span class="istat-sub" id="istat-calls-ok">0 exitosas</span></div>
                 </div>
-            </div>
-            <div class="istat-card istat-calls">
-                <div class="istat-icon"><span class="material-icons-outlined">phone_in_talk</span></div>
-                <div class="istat-info">
-                    <span class="istat-value" id="istat-calls-total">0</span>
-                    <span class="istat-label">Llamadas IA</span>
+                <div class="istat-card istat-ventas">
+                    <div class="istat-icon"><span class="material-icons-outlined">shopping_cart</span></div>
+                    <div class="istat-info"><span class="istat-value" id="istat-ventas">0</span><span class="istat-label">Ventas por IA</span></div>
+                    <div class="istat-detail"><span class="istat-sub" id="istat-ventas-pct">0% conversión</span></div>
                 </div>
-                <div class="istat-detail">
-                    <span class="istat-sub" id="istat-calls-ok">0 exitosas</span>
+                <div class="istat-card istat-pending">
+                    <div class="istat-icon"><span class="material-icons-outlined">priority_high</span></div>
+                    <div class="istat-info"><span class="istat-value" id="istat-pending">0</span><span class="istat-label">Sin Respuesta</span></div>
+                    <div class="istat-detail"><span class="istat-sub" id="istat-pending-wa">WA + Llamadas</span></div>
                 </div>
-            </div>
-            <div class="istat-card istat-ventas">
-                <div class="istat-icon"><span class="material-icons-outlined">shopping_cart</span></div>
-                <div class="istat-info">
-                    <span class="istat-value" id="istat-ventas">0</span>
-                    <span class="istat-label">Ventas por IA</span>
-                </div>
-                <div class="istat-detail">
-                    <span class="istat-sub" id="istat-ventas-pct">0% conversión</span>
-                </div>
-            </div>
-            <div class="istat-card istat-pending">
-                <div class="istat-icon"><span class="material-icons-outlined">priority_high</span></div>
-                <div class="istat-info">
-                    <span class="istat-value" id="istat-pending">0</span>
-                    <span class="istat-label">Sin Respuesta</span>
-                </div>
-                <div class="istat-detail">
-                    <span class="istat-sub" id="istat-pending-wa">0 WA + 0 Llamadas</span>
-                </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Charts Section -->
-        <section class="charts-section" id="charts-section">
-            <div class="chart-card" id="chart-segmentacion">
-                <div class="chart-header"><h3>Segmentación de Clientes</h3></div>
-                <div class="chart-body">
-                    <canvas id="canvas-segmentacion" width="280" height="280"></canvas>
-                    <div class="chart-legend" id="legend-segmentacion"></div>
+            <!-- Charts -->
+            <section class="charts-section">
+                <div class="chart-card">
+                    <div class="chart-header"><h3>Segmentación de Clientes</h3></div>
+                    <div class="chart-body">
+                        <canvas id="canvas-segmentacion" width="280" height="280"></canvas>
+                        <div class="chart-legend" id="legend-segmentacion"></div>
+                    </div>
                 </div>
-            </div>
-            <div class="chart-card" id="chart-interacciones">
-                <div class="chart-header"><h3>Interacciones por Día (últimos 7 días)</h3></div>
-                <div class="chart-body chart-body-full">
-                    <canvas id="canvas-interacciones" width="520" height="260"></canvas>
+                <div class="chart-card">
+                    <div class="chart-header"><h3>Interacciones por Día (últimos 7 días)</h3></div>
+                    <div class="chart-body chart-body-full">
+                        <canvas id="canvas-interacciones" width="520" height="260"></canvas>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Filters -->
-        <section class="filters-section" id="filters-section">
-            <div class="filter-group">
-                <label for="filter-prioridad">Prioridad</label>
-                <select id="filter-prioridad">
-                    <option value="">Todas</option>
-                    <option value="ALTA">🔴 Alta</option>
-                    <option value="MEDIA">🟡 Media</option>
-                    <option value="BAJA">🟢 Baja</option>
-                </select>
-            </div>
-            <div class="filter-group">
-                <label for="filter-segmento">Segmento</label>
-                <select id="filter-segmento">
-                    <option value="">Todos</option>
-                    <option value="NUEVO">Nuevo</option>
-                    <option value="PERDIDO">Perdido</option>
-                    <option value="OCASIONAL">Ocasional</option>
-                    <option value="RECURRENTE">Recurrente</option>
-                </select>
-            </div>
-            <div class="filter-group">
-                <label for="filter-logistico">Estado Logístico</label>
-                <select id="filter-logistico">
-                    <option value="">Todos</option>
-                    <option value="GUIA_GENERADA">Guía Generada</option>
-                    <option value="EN_REPARTO">En Reparto</option>
-                    <option value="EN_OFICINA">En Oficina</option>
-                    <option value="ENTREGADO_AL_CLIENTE">Entregado</option>
-                    <option value="HABLAR_CON_ASESOR">Hablar con Asesor</option>
-                    <option value="RETRASO_O_MOLESTIA">Retraso/Molestia</option>
-                    <option value="NOVEDADES">Novedades</option>
-                    <option value="GARANTIAS">Garantías</option>
-                    <option value="DEVOLUCIONES">Devoluciones</option>
-                </select>
-            </div>
-            <div class="filter-group">
-                <label for="filter-canal">Canal</label>
-                <select id="filter-canal">
-                    <option value="">Todos</option>
-                    <option value="ORGANICO">Orgánico</option>
-                    <option value="ANUNCIO">Anuncio</option>
-                    <option value="EVENTO">Evento</option>
-                </select>
-            </div>
-            <button class="btn-filter-apply" id="btn-filter-apply">
-                <span class="material-icons-outlined">filter_list</span> Filtrar
-            </button>
-            <button class="btn-filter-clear" id="btn-filter-clear">
-                <span class="material-icons-outlined">clear_all</span> Limpiar
-            </button>
-        </section>
-
-        <!-- Tabs & Table -->
-        <section class="table-section" id="table-section">
-            <div class="table-tabs">
-                <div class="tabs-left">
-                    <button class="tab active" id="tab-activas" data-tab="ACTIVA">Activas</button>
-                    <button class="tab" id="tab-completadas" data-tab="COMPLETADA">Completadas</button>
-                    <button class="tab" id="tab-archivadas" data-tab="ARCHIVADA">Archivadas</button>
+            <!-- Filters + Table -->
+            <section class="filters-section" id="filters-section">
+                <div class="filter-group">
+                    <label>Prioridad</label>
+                    <select id="filter-prioridad"><option value="">Todas</option><option value="ALTA">🔴 Alta</option><option value="MEDIA">🟡 Media</option><option value="BAJA">🟢 Baja</option></select>
                 </div>
-                <div class="tabs-right">
-                    <button class="icon-btn" id="btn-refresh" title="Refrescar"><span class="material-icons-outlined">refresh</span></button>
-                    <button class="icon-btn" id="btn-download" title="Descargar CSV"><span class="material-icons-outlined">download</span></button>
+                <div class="filter-group">
+                    <label>Segmento</label>
+                    <select id="filter-segmento"><option value="">Todos</option><option value="NUEVO">Nuevo</option><option value="PERDIDO">Perdido</option><option value="OCASIONAL">Ocasional</option><option value="RECURRENTE">Recurrente</option></select>
                 </div>
-            </div>
-
-            <div class="table-wrapper">
-                <table class="data-table" id="data-table">
-                    <thead>
-                        <tr>
-                            <th>PRIORIDAD</th>
-                            <th>CLIENTE &<br>UBICACIÓN</th>
-                            <th>WHATSAPP</th>
-                            <th>SEGMENTO &<br>CANAL</th>
-                            <th>PRODUCTO &<br>TICKET</th>
-                            <th>ESTADO<br>LOGÍSTICO</th>
-                            <th>WHATSAPP<br>ENVIADO</th>
-                            <th>LLAMADA<br>IA</th>
-                            <th>5D</th>
-                            <th>15D</th>
-                            <th>25D</th>
-                            <th>35D</th>
-                            <th>OBSERVACIONES</th>
-                            <th>CALIDAD</th>
-                        </tr>
-                    </thead>
-                    <tbody id="table-body"></tbody>
-                </table>
-            </div>
-
-            <div class="table-footer">
-                <span class="table-info" id="table-info">Cargando...</span>
-                <div class="pagination" id="pagination">
-                    <button class="page-btn" id="page-prev">&lt;</button>
-                    <span class="page-indicator" id="page-indicator">1</span>
-                    <button class="page-btn" id="page-next">&gt;</button>
+                <div class="filter-group">
+                    <label>Estado Logístico</label>
+                    <select id="filter-logistico"><option value="">Todos</option><option value="GUIA_GENERADA">Guía Generada</option><option value="EN_REPARTO">En Reparto</option><option value="EN_OFICINA">En Oficina</option><option value="ENTREGADO_AL_CLIENTE">Entregado</option><option value="HABLAR_CON_ASESOR">Hablar Asesor</option><option value="RETRASO_O_MOLESTIA">Retraso</option><option value="NOVEDADES">Novedades</option><option value="GARANTIAS">Garantías</option><option value="DEVOLUCIONES">Devoluciones</option></select>
                 </div>
-            </div>
-        </section>
+                <div class="filter-group">
+                    <label>Canal / Área</label>
+                    <input type="text" id="filter-canal" placeholder="Buscar canal...">
+                </div>
+                <button class="btn-filter-apply" id="btn-filter-apply"><span class="material-icons-outlined">filter_list</span> Filtrar</button>
+                <button class="btn-filter-clear" id="btn-filter-clear"><span class="material-icons-outlined">clear_all</span> Limpiar</button>
+            </section>
+
+            <section class="table-section" id="table-section">
+                <div class="table-tabs">
+                    <div class="tabs-left">
+                        <button class="tab active" data-tab="ACTIVA">Activas</button>
+                        <button class="tab" data-tab="COMPLETADA">Completadas</button>
+                        <button class="tab" data-tab="ARCHIVADA">Archivadas</button>
+                    </div>
+                    <div class="tabs-right">
+                        <button class="icon-btn" id="btn-refresh" title="Refrescar"><span class="material-icons-outlined">refresh</span></button>
+                        <button class="icon-btn" id="btn-download" title="Descargar CSV"><span class="material-icons-outlined">download</span></button>
+                    </div>
+                </div>
+                <div class="table-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>PRIORIDAD</th>
+                                <th>CLIENTE &<br>UBICACIÓN</th>
+                                <th>WHATSAPP</th>
+                                <th>SEGMENTO</th>
+                                <th>PRODUCTO &<br>TICKET</th>
+                                <th>ESTADO<br>LOGÍSTICO</th>
+                                <th>WA<br>STATUS</th>
+                                <th>LLAMADA<br>IA</th>
+                                <th>5D</th>
+                                <th>15D</th>
+                                <th>25D</th>
+                                <th>35D</th>
+                                <th>OBSERVACIONES</th>
+                                <th>CALIDAD</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body"></tbody>
+                    </table>
+                </div>
+                <div class="table-footer">
+                    <span class="table-info" id="table-info">Cargando...</span>
+                    <div class="pagination"><button class="page-btn" id="page-prev">&lt;</button><span class="page-indicator" id="page-indicator">1</span><button class="page-btn" id="page-next">&gt;</button></div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ═══════════════════════════════════════════ -->
+        <!-- SECTION: TAREAS (KANBAN)                    -->
+        <!-- ═══════════════════════════════════════════ -->
+        <div id="view-tareas" style="display:none;">
+            <section class="kanban-controls">
+                <div class="kanban-toggle">
+                    <button class="kanban-view-btn active" data-kanban="asesores">
+                        <span class="material-icons-outlined">person</span> Por Asesor
+                    </button>
+                    <button class="kanban-view-btn" data-kanban="ia">
+                        <span class="material-icons-outlined">smart_toy</span> IA vs Humano
+                    </button>
+                </div>
+            </section>
+            <section class="kanban-board" id="kanban-board">
+                <!-- Dynamic kanban columns rendered by JS -->
+            </section>
+        </div>
+
+        <!-- ═══════════════════════════════════════════ -->
+        <!-- SECTION: REPORTES                           -->
+        <!-- ═══════════════════════════════════════════ -->
+        <div id="view-reportes" style="display:none;">
+            <!-- Asesor Performance -->
+            <section class="report-section">
+                <div class="report-header"><h3><span class="material-icons-outlined">person</span> Rendimiento por Asesor</h3></div>
+                <div class="report-body" id="report-asesores"></div>
+            </section>
+            <!-- IA Performance -->
+            <section class="report-section">
+                <div class="report-header"><h3><span class="material-icons-outlined">smart_toy</span> Rendimiento IA</h3></div>
+                <div class="report-body" id="report-ia"></div>
+            </section>
+            <!-- Segmentación -->
+            <section class="report-section">
+                <div class="report-header"><h3><span class="material-icons-outlined">pie_chart</span> Clasificación de Clientes</h3></div>
+                <div class="report-body" id="report-segmentos"></div>
+            </section>
+            <!-- Canales -->
+            <section class="report-section">
+                <div class="report-header"><h3><span class="material-icons-outlined">campaign</span> Área / Canal de Origen</h3></div>
+                <div class="report-body" id="report-canales"></div>
+            </section>
+        </div>
+
+        <!-- ═══════════════════════════════════════════ -->
+        <!-- SECTION: AJUSTES                            -->
+        <!-- ═══════════════════════════════════════════ -->
+        <div id="view-ajustes" style="display:none;">
+            <section class="settings-section">
+                <div class="settings-card">
+                    <h3>Acerca del Proyecto</h3>
+                    <p>CRM de Fidelización Logística — Elite Nutrition Colombia</p>
+                    <p>Supabase ID: <code>rqucbsuafirnohhogdry</code></p>
+                    <p>Equipo: Fidelización & Recompras</p>
+                </div>
+            </section>
+        </div>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
