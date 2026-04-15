@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initPagination();
     initKanbanControls();
     loadAll();
+    initRealtime();
 });
 
 // ── STATE ────────────────────────────────────────────────────
@@ -46,6 +47,22 @@ async function loadCoreData() {
     allClientes = r2.data || [];
     allPedidos = r3.data || [];
     allAsesores = r4.data || [];
+}
+
+function initRealtime() {
+    supabase.channel('schema-db-changes')
+        .on(
+            'postgres_changes',
+            { event: '*', schema: 'public', table: 'seguimientos_fidelizacion' },
+            (payload) => {
+                console.log('Realtime change:', payload);
+                if (window.realtimeTimeout) clearTimeout(window.realtimeTimeout);
+                window.realtimeTimeout = setTimeout(() => {
+                    loadAll();
+                }, 1000);
+            }
+        )
+        .subscribe();
 }
 
 // ── KPIs ─────────────────────────────────────────────────────
@@ -447,6 +464,8 @@ function initFilters() {
         document.getElementById('filter-segmento').value = '';
         document.getElementById('filter-logistico').value = '';
         document.getElementById('filter-canal').value = '';
+        document.getElementById('filter-fecha').value = '';
+        document.getElementById('filter-ubicacion').value = '';
         applyFilters();
     });
 }
@@ -456,12 +475,26 @@ function applyFilters() {
     const seg = document.getElementById('filter-segmento').value;
     const log = document.getElementById('filter-logistico').value;
     const can = document.getElementById('filter-canal').value.toLowerCase().trim();
+    const fec = document.getElementById('filter-fecha').value;
+    const ubi = document.getElementById('filter-ubicacion').value.toLowerCase().trim();
+
     filteredRows = allRows.filter(r => {
         const c = r.pedidos?.clientes || {}, p = r.pedidos || {};
         if (pr && r.prioridad !== pr) return false;
         if (seg && c.etiqueta !== seg) return false;
         if (log && p.estado_logistico !== log) return false;
         if (can && !(c.canal_adquisicion || '').toLowerCase().includes(can) && !(p.area_ventas || '').toLowerCase().includes(can)) return false;
+        
+        if (fec) {
+            const rowFecha = (r.fecha_registro || '').split(' ')[0];
+            if (rowFecha !== fec) return false;
+        }
+
+        if (ubi) {
+            const locStr = `${c.ciudad || ''} ${c.departamento || ''} ${c.pais || ''}`.toLowerCase();
+            if (!locStr.includes(ubi)) return false;
+        }
+
         return true;
     });
     currentPage = 1; renderTable();
