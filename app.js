@@ -13,6 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
     initKanbanControls();
     loadAll();
     initRealtime();
+    
+    // Auto-refresh cada 10 minutos (600,000 ms)
+    setInterval(loadAll, 600000);
 });
 
 // ── STATE ────────────────────────────────────────────────────
@@ -409,7 +412,7 @@ function fechaBogota() {
 async function loadTable() {
     const { data, error } = await supabase
         .from('seguimientos_fidelizacion')
-        .select(`*, pedidos ( id, producto, ticket_compra, area_ventas, estado_logistico, fecha_pedido, clientes ( id, nombre_completo, whatsapp, departamento, ciudad, etiqueta, canal_adquisicion ) ), asesores ( id, nombre_completo ), interacciones ( id, tipo, motivo, resultado, fue_venta, whatsapp_respondido, duracion_segundos, fecha_interaccion, notas )`)
+        .select(`*, pedidos ( id, producto, ticket_compra, area_ventas, estado_logistico, fecha_pedido, guia, clientes ( id, nombre_completo, whatsapp, departamento, ciudad, etiqueta, canal_adquisicion ) ), asesores ( id, nombre_completo ), interacciones ( id, tipo, motivo, resultado, fue_venta, whatsapp_respondido, duracion_segundos, fecha_interaccion, notas )`)
         .eq('estado_tarea', currentTab)
         .order('created_at', { ascending: false });
     if (error) { console.error(error); allRows = []; }
