@@ -75,10 +75,9 @@ function loadKPIs() {
     const avg = tickets.length ? Math.round(tickets.reduce((a, b) => a + b, 0) / tickets.length) : 0;
     document.getElementById('kpi-val-ticket').textContent = '$' + avg.toLocaleString('es-CO');
 
-    const calls = allInteracciones.filter(i => i.tipo === 'LLAMADA_IA');
-    const okCalls = calls.filter(i => i.resultado === 'EXITOSA');
-    document.getElementById('kpi-val-llamadas').textContent = calls.length;
-    document.getElementById('kpi-sub-llamadas').textContent = `${okCalls.length} exitosas`;
+    const pedidosArr = allPedidos || [];
+    document.getElementById('kpi-val-pedidos').textContent = pedidosArr.length.toLocaleString('es-CO');
+    document.getElementById('kpi-sub-pedidos').textContent = 'Confirmados';
 
     // Pendientes por contactar
     const pendientes = calcPendientes();
