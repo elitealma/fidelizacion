@@ -52,18 +52,19 @@ async function loadCoreData() {
 }
 
 function initRealtime() {
+    const handleRealtimeChange = (payload) => {
+        console.log('Realtime change:', payload);
+        if (window.realtimeTimeout) clearTimeout(window.realtimeTimeout);
+        window.realtimeTimeout = setTimeout(() => {
+            loadAll();
+        }, 1000);
+    };
+
     supabase.channel('schema-db-changes')
-        .on(
-            'postgres_changes',
-            { event: '*', schema: 'public', table: 'seguimientos_fidelizacion' },
-            (payload) => {
-                console.log('Realtime change:', payload);
-                if (window.realtimeTimeout) clearTimeout(window.realtimeTimeout);
-                window.realtimeTimeout = setTimeout(() => {
-                    loadAll();
-                }, 1000);
-            }
-        )
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'seguimientos_fidelizacion' }, handleRealtimeChange)
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'interacciones' }, handleRealtimeChange)
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'pedidos' }, handleRealtimeChange)
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'clientes' }, handleRealtimeChange)
         .subscribe();
 }
 
