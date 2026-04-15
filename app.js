@@ -538,11 +538,37 @@ function renderTable() {
         const fechaDia = fechaParts[0] || '-';
         const fechaHora = fechaParts[1] || '';
 
+        // Determinar si es día de seguimiento para mostrar u ocultar WhatsApp
+        let esDiaDeSeguimiento = false;
+        if (p.fecha_pedido) {
+            const datePedido = new Date(p.fecha_pedido);
+            const dateNow = new Date();
+            dateNow.setHours(0, 0, 0, 0);
+            datePedido.setHours(0, 0, 0, 0);
+            const diffDays = Math.floor((dateNow - datePedido) / (1000 * 60 * 60 * 24));
+            esDiaDeSeguimiento = [5, 15, 25, 35].includes(diffDays);
+        }
+
+        // Construir la celda de GUIA y WHATSAPP
+        const guiaElem = p.guia ? `<div style="font-size:12px; font-weight:600; color:#3b82f6; margin-bottom:4px" title="Guía">🚚 ${p.guia}</div>` : '';
+        let waLink = '';
+        if (c.whatsapp) {
+            if (ventasCount > 0) {
+                waLink = '<span style="font-size:11px;color:var(--color-text-muted)">Oculto (Venta)</span>';
+            } else if (esDiaDeSeguimiento) {
+                waLink = `<a href="https://wa.me/${c.whatsapp.replace('+', '')}" target="_blank">${c.whatsapp}</a>`;
+            } else {
+                waLink = '<span style="font-size:11px;color:var(--color-text-muted)">Oculto</span>';
+            }
+        } else {
+            waLink = '-';
+        }
+
         tr.innerHTML = `
             <td class="cell-fecha"><span class="fecha-dia">${fechaDia}</span><span class="fecha-hora">${fechaHora}</span></td>
             <td><span class="prio-badge ${prC}">${prI} ${seg.prioridad || 'MEDIA'}</span></td>
             <td class="cell-cliente"><span class="client-name">${c.nombre_completo || '-'}</span><span class="client-location">${c.ciudad || ''}${c.ciudad && c.departamento ? ', ' : ''}${c.departamento || ''}</span></td>
-            <td class="cell-whatsapp"><a href="https://wa.me/${(c.whatsapp || '').replace('+', '')}" target="_blank">${c.whatsapp || '-'}</a></td>
+            <td class="cell-whatsapp">${guiaElem}<div>${waLink}</div></td>
             <td><span class="segmento-badge ${c.etiqueta || 'NUEVO'}">${c.etiqueta || '-'}</span></td>
             <td><span class="product-badge">${(p.producto || '-').toUpperCase()}</span><br><span class="cell-ticket">$${parseFloat(p.ticket_compra || 0).toLocaleString('es-CO')}</span></td>
             <td><span class="estado-badge ${p.estado_logistico || 'TODAS'}">${(p.estado_logistico || '-').replace(/_/g, ' ')}</span></td>
