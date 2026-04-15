@@ -101,10 +101,10 @@
                     </div>
                 </div>
                 <div class="kpi-card">
-                    <div class="kpi-icon-wrap kpi-icon-retencion"><span class="material-icons-outlined">trending_up</span></div>
+                    <div class="kpi-icon-wrap kpi-icon-pendientes"><span class="material-icons-outlined">person_off</span></div>
                     <div class="kpi-content">
-                        <span class="kpi-label">TASA ÉXITO IA</span>
-                        <div class="kpi-body"><span class="kpi-value" id="kpi-val-exito">0%</span><span class="kpi-change positive">Exitosas</span></div>
+                        <span class="kpi-label">PENDIENTES CONTACTAR</span>
+                        <div class="kpi-body"><span class="kpi-value" id="kpi-val-pendientes">0</span><span class="kpi-change priority" id="kpi-sub-pendientes">sin contacto</span></div>
                     </div>
                 </div>
             </section>
@@ -133,6 +133,17 @@
                 </div>
             </section>
 
+            <!-- Pendientes por Contactar -->
+            <section class="pendientes-section" id="pendientes-section">
+                <div class="pendientes-header">
+                    <h3><span class="material-icons-outlined">person_off</span> Clientes Pendientes por Contactar</h3>
+                    <span class="pendientes-count" id="pendientes-count">0</span>
+                </div>
+                <div class="pendientes-grid" id="pendientes-grid">
+                    <!-- Dynamic content -->
+                </div>
+            </section>
+
             <!-- Charts -->
             <section class="charts-section">
                 <div class="chart-card">
@@ -145,7 +156,7 @@
                 <div class="chart-card">
                     <div class="chart-header"><h3>Interacciones por Día (últimos 7 días)</h3></div>
                     <div class="chart-body chart-body-full">
-                        <canvas id="canvas-interacciones" width="520" height="260"></canvas>
+                        <canvas id="canvas-interacciones" width="520" height="280"></canvas>
                     </div>
                 </div>
             </section>
@@ -200,6 +211,8 @@
                                 <th>15D</th>
                                 <th>25D</th>
                                 <th>35D</th>
+                                <th>RESUMEN<br>LLAMADA</th>
+                                <th>VENTAS</th>
                                 <th>OBSERVACIONES</th>
                                 <th>CALIDAD</th>
                             </tr>
@@ -237,6 +250,13 @@
         <!-- SECTION: REPORTES                           -->
         <!-- ═══════════════════════════════════════════ -->
         <div id="view-reportes" style="display:none;">
+            <!-- Ventas Area Chart -->
+            <section class="report-section">
+                <div class="report-header"><h3><span class="material-icons-outlined">trending_up</span> Ventas y Conversiones (últimos 14 días)</h3></div>
+                <div class="report-body">
+                    <canvas id="canvas-ventas-area" width="800" height="300" style="width:100%;max-height:300px;"></canvas>
+                </div>
+            </section>
             <!-- Asesor Performance -->
             <section class="report-section">
                 <div class="report-header"><h3><span class="material-icons-outlined">person</span> Rendimiento por Asesor</h3></div>
@@ -246,6 +266,11 @@
             <section class="report-section">
                 <div class="report-header"><h3><span class="material-icons-outlined">smart_toy</span> Rendimiento IA</h3></div>
                 <div class="report-body" id="report-ia"></div>
+            </section>
+            <!-- Resumen de Llamadas Recientes -->
+            <section class="report-section">
+                <div class="report-header"><h3><span class="material-icons-outlined">summarize</span> Resumen de Llamadas Recientes</h3></div>
+                <div class="report-body" id="report-resumenes"></div>
             </section>
             <!-- Segmentación -->
             <section class="report-section">
