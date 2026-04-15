@@ -2002,6 +2002,22 @@ body {
 /* ================================
    RESPONSIVE
    ================================ */
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+canvas {
+    max-width: 100%;
+    height: auto !important;
+}
+
+.filters-section {
+    flex-wrap: wrap;
+}
+
 @media (max-width: 1024px) {
     .sidebar { transform: translateX(-100%); }
     .sidebar.open { transform: translateX(0); box-shadow: 0 0 40px rgba(0, 0, 0, 0.5); }
@@ -2031,7 +2047,10 @@ body {
     .istat-detail { display: none; }
     .search-bar { display: none; }
     .charts-section { padding: 0 12px 12px; }
-    .filters-section { padding: 0 12px 8px; }
+    .filters-section { padding: 0 12px 8px; display: flex; flex-direction: column; gap: 10px; }
+    .filter-group { width: 100%; margin-bottom: 4px; }
+    .filter-group select, .filter-group input { width: 100%; }
+    #btn-filter-apply, #btn-filter-clear { width: 100%; margin-top: 4px; }
     .table-section { margin: 0 8px 8px; border-radius: var(--border-radius); }
     .data-table tbody td { padding: 10px 8px; }
     .kanban-board { flex-direction: column; padding: 0 12px 12px; }
