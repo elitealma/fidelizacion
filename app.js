@@ -384,15 +384,60 @@ function drawDots(ctx, days, vals, maxVal, padL, padT, chartW, chartH, color) {
 }
 
 // ── TABLE ────────────────────────────────────────────────────
+function fechaBogota() {
+    const p = new Intl.DateTimeFormat('sv-SE', { timeZone: 'America/Bogota', year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false }).formatToParts(new Date()).reduce((o,x)=>(o[x.type]=x.value,o),{});
+    return `${p.year}-${p.month}-${p.day} ${p.hour}:${p.minute}:${p.second}`;
+}
+
 async function loadTable() {
     const { data, error } = await supabase
         .from('seguimientos_fidelizacion')
-        .select(`*, pedidos ( id, producto, ticket_compra, area_ventas, estado_logistico, clientes ( id, nombre_completo, whatsapp, departamento, ciudad, etiqueta, canal_adquisicion ) ), asesores ( id, nombre_completo ), interacciones ( id, tipo, motivo, resultado, fue_venta, whatsapp_respondido, duracion_segundos, fecha_interaccion, notas )`)
+        .select(`*, pedidos ( id, producto, ticket_compra, area_ventas, estado_logistico, fecha_pedido, clientes ( id, nombre_completo, whatsapp, departamento, ciudad, etiqueta, canal_adquisicion ) ), asesores ( id, nombre_completo ), interacciones ( id, tipo, motivo, resultado, fue_venta, whatsapp_respondido, duracion_segundos, fecha_interaccion, notas )`)
         .eq('estado_tarea', currentTab)
         .order('created_at', { ascending: false });
     if (error) { console.error(error); allRows = []; }
     else { const po = { ALTA: 0, MEDIA: 1, BAJA: 2 }; allRows = (data || []).sort((a, b) => (po[a.prioridad] || 1) - (po[b.prioridad] || 1)); }
+
+    // Auto-marcar checkboxes según días transcurridos desde fecha_pedido
+    await autoCheckByDays();
     applyFilters();
+}
+
+async function autoCheckByDays() {
+    const now = new Date();
+    const todayStr = fechaBogota().split(' ')[0]; // YYYY-MM-DD
+    const checks = [
+        { days: 5,  boolField: 'llamada_5d',  dateField: 'fecha_5d' },
+        { days: 15, boolField: 'llamada_15d', dateField: 'fecha_15d' },
+        { days: 25, boolField: 'llamada_25d', dateField: 'fecha_25d' },
+        { days: 35, boolField: 'llamada_35d', dateField: 'fecha_35d' },
+    ];
+
+    for (const seg of allRows) {
+        const fechaPedido = seg.pedidos?.fecha_pedido;
+        if (!fechaPedido) continue;
+
+        const pedidoDate = new Date(fechaPedido);
+        const diffDays = Math.floor((now - pedidoDate) / (1000 * 60 * 60 * 24));
+        const updates = {};
+
+        for (const ck of checks) {
+            if (diffDays >= ck.days && !seg[ck.boolField]) {
+                updates[ck.boolField] = true;
+                updates[ck.dateField] = todayStr;
+                seg[ck.boolField] = true;
+                seg[ck.dateField] = todayStr;
+            }
+        }
+
+        if (Object.keys(updates).length > 0) {
+            const { error } = await supabase
+                .from('seguimientos_fidelizacion')
+                .update(updates)
+                .eq('id', seg.id);
+            if (error) console.warn(`Auto-check error [${seg.id}]:`, error.message);
+        }
+    }
 }
 
 function initFilters() {
