@@ -765,6 +765,28 @@ body {
 }
 
 /* Cell Styles */
+.cell-fecha {
+    min-width: 95px;
+    text-align: center;
+}
+
+.cell-fecha .fecha-dia {
+    display: block;
+    font-weight: 700;
+    font-size: var(--font-size-xs);
+    color: var(--color-text-primary);
+    letter-spacing: 0.3px;
+    font-variant-numeric: tabular-nums;
+}
+
+.cell-fecha .fecha-hora {
+    display: block;
+    font-size: 0.6rem;
+    color: var(--color-text-muted);
+    margin-top: 2px;
+    font-variant-numeric: tabular-nums;
+}
+
 .cell-cliente {
     min-width: 150px;
 }

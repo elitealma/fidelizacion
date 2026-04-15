@@ -427,7 +427,7 @@ function renderTable() {
     const start = (currentPage - 1) * PAGE_SIZE;
     const page = filteredRows.slice(start, start + PAGE_SIZE);
     if (!page.length) {
-        tbody.innerHTML = `<tr><td colspan="16" style="text-align:center;padding:40px;color:var(--color-text-muted);"><span class="material-icons-outlined" style="font-size:48px;display:block;margin-bottom:8px">inbox</span>No hay registros</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="17" style="text-align:center;padding:40px;color:var(--color-text-muted);"><span class="material-icons-outlined" style="font-size:48px;display:block;margin-bottom:8px">inbox</span>No hay registros</td></tr>`;
         updFooter(0); return;
     }
     page.forEach((seg, idx) => {
@@ -454,7 +454,14 @@ function renderTable() {
         const resumenText = seg.resumen_llamada || (lastCall ? (lastCall.notas || '-') : '-');
         const resumenShort = resumenText.length > 60 ? resumenText.substring(0, 60) + '…' : resumenText;
 
+        // Fecha registro
+        const fechaReg = seg.fecha_registro || '';
+        const fechaParts = fechaReg.split(' ');
+        const fechaDia = fechaParts[0] || '-';
+        const fechaHora = fechaParts[1] || '';
+
         tr.innerHTML = `
+            <td class="cell-fecha"><span class="fecha-dia">${fechaDia}</span><span class="fecha-hora">${fechaHora}</span></td>
             <td><span class="prio-badge ${prC}">${prI} ${seg.prioridad || 'MEDIA'}</span></td>
             <td class="cell-cliente"><span class="client-name">${c.nombre_completo || '-'}</span><span class="client-location">${c.ciudad || ''}${c.ciudad && c.departamento ? ', ' : ''}${c.departamento || ''}</span></td>
             <td class="cell-whatsapp"><a href="https://wa.me/${(c.whatsapp || '').replace('+', '')}" target="_blank">${c.whatsapp || '-'}</a></td>
