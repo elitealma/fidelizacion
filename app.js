@@ -157,6 +157,8 @@ function loadInteractionStats() {
     document.getElementById('istat-ventas-pct').textContent = `${ventasPct}% conversión`;
     document.getElementById('istat-pending').textContent = pendWa.length + pendCalls.length;
     document.getElementById('istat-pending-wa').textContent = `${pendWa.length} WA + ${pendCalls.length} Llam`;
+}
+
 // ── PENDIENTES POR CONTACTAR ─────────────────────────────────
 async function loadPendientes() {
     const grid = document.getElementById('pendientes-grid');
