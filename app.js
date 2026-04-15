@@ -33,7 +33,6 @@ async function loadAll() {
     await loadCoreData();
     loadKPIs();
     loadInteractionStats();
-    loadSidebarStats();
     loadPendientes();
     loadCharts();
     loadTable();
@@ -158,14 +157,6 @@ function loadInteractionStats() {
     document.getElementById('istat-ventas-pct').textContent = `${ventasPct}% conversión`;
     document.getElementById('istat-pending').textContent = pendWa.length + pendCalls.length;
     document.getElementById('istat-pending-wa').textContent = `${pendWa.length} WA + ${pendCalls.length} Llam`;
-}
-
-function loadSidebarStats() {
-    const today = new Date().toISOString().slice(0, 10);
-    document.getElementById('sidebar-calls-today').textContent = allInteracciones.filter(i => i.tipo === 'LLAMADA_IA' && i.fecha_interaccion?.startsWith(today)).length;
-    document.getElementById('sidebar-wa-today').textContent = allInteracciones.filter(i => i.tipo === 'WHATSAPP_PLANTILLA' && i.fecha_interaccion?.startsWith(today)).length;
-}
-
 // ── PENDIENTES POR CONTACTAR ─────────────────────────────────
 async function loadPendientes() {
     const grid = document.getElementById('pendientes-grid');
@@ -225,7 +216,7 @@ async function loadPendientes() {
             <div class="pendiente-location">${c.ciudad || ''}${c.ciudad && c.departamento ? ', ' : ''}${c.departamento || ''}</div>
             <div class="pendiente-product">${p.producto || '-'} · $${parseFloat(p.ticket_compra || 0).toLocaleString('es-CO')}</div>
             <div class="pendiente-actions">
-                <a href="https://wa.me/${(c.whatsapp || '').replace('+', '')}" target="_blank" class="pendiente-btn pendiente-btn-wa" title="WhatsApp">
+                <a href="https://wa.me/${String(c.whatsapp || '').replace('+', '')}" target="_blank" class="pendiente-btn pendiente-btn-wa" title="WhatsApp">
                     <span class="material-icons-outlined">chat</span>
                 </a>
                 <span class="pendiente-last">Último: ${lastDate}</span>
@@ -542,15 +533,17 @@ function renderTable() {
         const fechaHora = fechaParts[1] || '';
 
         // Determinar si es día de seguimiento para mostrar u ocultar WhatsApp
-        let esDiaDeSeguimiento = false;
-        if (p.fecha_pedido) {
-            const datePedido = new Date(p.fecha_pedido);
-            const dateNow = new Date();
-            dateNow.setHours(0, 0, 0, 0);
+        const datePedido = new Date(p.fecha_pedido);
+        const dateNow = new Date();
+        dateNow.setHours(0, 0, 0, 0);
+        
+        let diffDays = 0;
+        if (!isNaN(datePedido)) {
             datePedido.setHours(0, 0, 0, 0);
-            const diffDays = Math.floor((dateNow - datePedido) / (1000 * 60 * 60 * 24));
-            esDiaDeSeguimiento = [5, 15, 25, 35].includes(diffDays);
+            diffDays = Math.floor((dateNow - datePedido) / (1000 * 60 * 60 * 24));
         }
+
+        const esDiaDeSeguimiento = [5, 15, 25, 35].includes(diffDays);
 
         // Construir la celda de GUIA y WHATSAPP
         const guiaElem = p.guia ? `<div style="font-size:12px; font-weight:600; color:#3b82f6; margin-bottom:4px" title="Guía">🚚 ${p.guia}</div>` : '';
@@ -559,7 +552,7 @@ function renderTable() {
             if (ventasCount > 0) {
                 waLink = '<span style="font-size:11px;color:var(--color-text-muted)">Oculto (Venta)</span>';
             } else if (esDiaDeSeguimiento) {
-                waLink = `<a href="https://wa.me/${c.whatsapp.replace('+', '')}" target="_blank">${c.whatsapp}</a>`;
+                waLink = `<a href="https://wa.me/${String(c.whatsapp).replace('+', '')}" target="_blank">${c.whatsapp}</a>`;
             } else {
                 waLink = '<span style="font-size:11px;color:var(--color-text-muted)">Oculto</span>';
             }
