@@ -5,7 +5,7 @@
 // ============================================================
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('Elite CRM Dash v3.0 — High Visibility Mode');
+    console.log('Elite CRM Dash v3.1 — Array Object Fix');
     initSidebar();
     initTabs();
     initSearch();
@@ -178,7 +178,7 @@ async function loadPendientes() {
     }
 
     grid.innerHTML = pendientes.slice(0, 12).map(s => {
-        const c = s.pedidos?.clientes || {};
+        const c = (Array.isArray(s.clientes) ? s.clientes[0] : s.clientes) || {};
         const p = s.pedidos || {};
         const ints = s.interacciones || [];
         const lastDate = ints.length
@@ -486,7 +486,7 @@ function renderTable() {
         updFooter(0); return;
     }
     page.forEach((seg, idx) => {
-        const p = seg.pedidos || {}, c = seg.clientes || {}, ints = seg.interacciones || [];
+        const p = seg.pedidos || {}, c = (Array.isArray(seg.clientes) ? seg.clientes[0] : seg.clientes) || {}, ints = seg.interacciones || [];
         const tr = document.createElement('tr'); tr.style.animationDelay = `${idx * 0.04}s`;
         const prC = { ALTA: 'prio-alta', MEDIA: 'prio-media', BAJA: 'prio-baja' }[seg.prioridad] || 'prio-media';
         const prI = { ALTA: '🔴', MEDIA: '🟡', BAJA: '🟢' }[seg.prioridad] || '🟡';
