@@ -5,6 +5,7 @@
 // ============================================================
 
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('Elite CRM Dash v2.1 — Ref: PGRST201 Fix');
     initSidebar();
     initTabs();
     initSearch();
