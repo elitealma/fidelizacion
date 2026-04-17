@@ -5,7 +5,7 @@
 // ============================================================
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('Elite CRM Dash v2.5 — Definitive Fix');
+    console.log('Elite CRM Dash v3.0 — High Visibility Mode');
     initSidebar();
     initTabs();
     initSearch();
@@ -145,7 +145,7 @@ async function loadPendientes() {
     // Get seguimientos with their client info and interactions
     const { data: segs } = await supabase
         .from('seguimientos_fidelizacion')
-        .select(`*, pedidos ( producto, ticket_compra, clientes!pedidos_cliente_id_fkey ( id, nombre_completo, whatsapp, ciudad, departamento, etiqueta ) ), interacciones ( fecha_interaccion, tipo, resultado )`)
+        .select(`*, clientes!fk_seguimientos_clientes_direct ( id, nombre_completo, whatsapp, ciudad, departamento, etiqueta ), pedidos ( producto, ticket_compra ), interacciones ( fecha_interaccion, tipo, resultado )`)
         .eq('estado_tarea', 'ACTIVA')
         .order('created_at', { ascending: false });
 
@@ -384,7 +384,7 @@ function fechaBogota() {
 async function loadTable() {
     const { data, error } = await supabase
         .from('seguimientos_fidelizacion')
-        .select(`*, pedidos ( id, producto, ticket_compra, area_ventas, estado_logistico, fecha_pedido, guia, clientes!pedidos_cliente_id_fkey ( id, nombre_completo, whatsapp, departamento, ciudad, etiqueta, canal_adquisicion ) ), asesores ( id, nombre_completo ), interacciones ( id, tipo, motivo, resultado, fue_venta, whatsapp_respondido, duracion_segundos, fecha_interaccion, notas )`)
+        .select(`*, clientes!fk_seguimientos_clientes_direct ( id, nombre_completo, whatsapp, departamento, ciudad, etiqueta, canal_adquisicion ), pedidos ( id, producto, ticket_compra, area_ventas, estado_logistico, fecha_pedido, guia ), asesores ( id, nombre_completo ), interacciones ( id, tipo, motivo, resultado, fue_venta, whatsapp_respondido, duracion_segundos, fecha_interaccion, notas )`)
         .eq('estado_tarea', currentTab)
         .order('created_at', { ascending: false });
     if (error) { console.error(error); allRows = []; }
@@ -486,7 +486,7 @@ function renderTable() {
         updFooter(0); return;
     }
     page.forEach((seg, idx) => {
-        const p = seg.pedidos || {}, c = p.clientes || {}, ints = seg.interacciones || [];
+        const p = seg.pedidos || {}, c = seg.clientes || {}, ints = seg.interacciones || [];
         const tr = document.createElement('tr'); tr.style.animationDelay = `${idx * 0.04}s`;
         const prC = { ALTA: 'prio-alta', MEDIA: 'prio-media', BAJA: 'prio-baja' }[seg.prioridad] || 'prio-media';
         const prI = { ALTA: '🔴', MEDIA: '🟡', BAJA: '🟢' }[seg.prioridad] || '🟡';
