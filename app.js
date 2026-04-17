@@ -5,7 +5,7 @@
 // ============================================================
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('Elite CRM Dash v3.1 — Array Object Fix');
+    console.log('Elite CRM Dash v3.2 — Global Search Fix');
     initSidebar();
     initTabs();
     initSearch();
@@ -145,11 +145,15 @@ async function loadPendientes() {
     // Get seguimientos with their client info and interactions
     const { data: segs } = await supabase
         .from('seguimientos_fidelizacion')
-        .select(`*, clientes!fk_seguimientos_clientes_direct ( id, nombre_completo, whatsapp, ciudad, departamento, etiqueta ), pedidos ( producto, ticket_compra ), interacciones ( fecha_interaccion, tipo, resultado )`)
+        .select(`*, clientes ( id, nombre_completo, whatsapp, ciudad, departamento, etiqueta ), pedidos ( producto, ticket_compra ), interacciones ( fecha_interaccion, tipo, resultado )`)
         .eq('estado_tarea', 'ACTIVA')
         .order('created_at', { ascending: false });
 
-    if (segs) segs.forEach(s => s.interacciones = getInteraccionesPara(s));
+    if (segs) segs.forEach(s => {
+        const directC = Array.isArray(s.clientes) ? s.clientes[0] : s.clientes;
+        s.clientes = directC || s.pedidos?.clientes || {};
+        s.interacciones = getInteraccionesPara(s);
+    });
 
     if (!segs || !segs.length) {
         grid.innerHTML = '<div class="pendientes-empty"><span class="material-icons-outlined">check_circle</span> Todos los clientes están al día</div>';
@@ -384,13 +388,18 @@ function fechaBogota() {
 async function loadTable() {
     const { data, error } = await supabase
         .from('seguimientos_fidelizacion')
-        .select(`*, clientes!fk_seguimientos_clientes_direct ( id, nombre_completo, whatsapp, departamento, ciudad, etiqueta, canal_adquisicion ), pedidos ( id, producto, ticket_compra, area_ventas, estado_logistico, fecha_pedido, guia ), asesores ( id, nombre_completo ), interacciones ( id, tipo, motivo, resultado, fue_venta, whatsapp_respondido, duracion_segundos, fecha_interaccion, notas )`)
+        .select(`*, clientes ( id, nombre_completo, whatsapp, departamento, ciudad, etiqueta, canal_adquisicion ), pedidos ( id, producto, ticket_compra, area_ventas, estado_logistico, fecha_pedido, guia ), asesores ( id, nombre_completo ), interacciones ( id, tipo, motivo, resultado, fue_venta, whatsapp_respondido, duracion_segundos, fecha_interaccion, notas )`)
         .eq('estado_tarea', currentTab)
         .order('created_at', { ascending: false });
     if (error) { console.error(error); allRows = []; }
     else { const po = { ALTA: 0, MEDIA: 1, BAJA: 2 }; allRows = (data || []).sort((a, b) => (po[a.prioridad] || 1) - (po[b.prioridad] || 1)); }
 
-    allRows.forEach(row => row.interacciones = getInteraccionesPara(row));
+    allRows.forEach(row => {
+        // Resolve client data: prefer direct join, fallback to nested join in pedidos if needed
+        const directC = Array.isArray(row.clientes) ? row.clientes[0] : row.clientes;
+        row.clientes = directC || row.pedidos?.clientes || {};
+        row.interacciones = getInteraccionesPara(row);
+    });
 
     // Auto-marcar checkboxes según días transcurridos desde fecha_pedido
     await autoCheckByDays();
@@ -456,7 +465,8 @@ function applyFilters() {
     const ubi = document.getElementById('filter-ubicacion').value.toLowerCase().trim();
 
     filteredRows = allRows.filter(r => {
-        const c = r.pedidos?.clientes || {}, p = r.pedidos || {};
+        const c = (Array.isArray(r.clientes) ? r.clientes[0] : r.clientes) || r.pedidos?.clientes || {};
+        const p = r.pedidos || {};
         if (pr && r.prioridad !== pr) return false;
         if (seg && c.etiqueta !== seg) return false;
         if (log && p.estado_logistico !== log) return false;
@@ -659,7 +669,11 @@ function initTabs() {
 function initSearch() {
     document.getElementById('search-input').addEventListener('input', e => {
         const q = e.target.value.toLowerCase().trim();
-        filteredRows = q ? allRows.filter(r => { const c = r.pedidos?.clientes || {}, p = r.pedidos || {}; return [c.nombre_completo, c.whatsapp, c.ciudad, c.departamento, p.producto, r.observaciones, r.prioridad, p.area_ventas, c.canal_adquisicion, r.resumen_llamada].filter(Boolean).join(' ').toLowerCase().includes(q); }) : [...allRows];
+        filteredRows = q ? allRows.filter(r => { 
+            const c = (Array.isArray(r.clientes) ? r.clientes[0] : r.clientes) || r.pedidos?.clientes || {};
+            const p = r.pedidos || {}; 
+            return [c.nombre_completo, c.whatsapp, c.ciudad, c.departamento, p.producto, r.observaciones, r.prioridad, p.area_ventas, c.canal_adquisicion, r.resumen_llamada].filter(Boolean).join(' ').toLowerCase().includes(q); 
+        }) : [...allRows];
         currentPage = 1; renderTable();
     });
 }
