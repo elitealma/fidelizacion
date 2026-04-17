@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=3.3">
 </head>
 <body>
     <!-- Sidebar -->
@@ -223,6 +223,20 @@
             </section>
         </div>
 
+        <!-- Modal: Historial de Interacciones -->
+        <div id="modal-historial" class="modal" style="display:none;">
+            <div class="modal-content large">
+                <div class="modal-header">
+                    <h2><span class="material-icons-outlined">history</span> Historial de Interacciones</h2>
+                    <button class="close-modal" id="close-modal-historial"><span class="material-icons-outlined">close</span></button>
+                </div>
+                <div class="modal-body">
+                    <div id="historial-meta" class="meta-banner"></div>
+                    <div class="timeline" id="historial-timeline"></div>
+                </div>
+            </div>
+        </div>
+
         <!-- ═══════════════════════════════════════════ -->
         <!-- SECTION: TAREAS (KANBAN)                    -->
         <!-- ═══════════════════════════════════════════ -->
@@ -302,6 +316,6 @@
         const _supa = window.supabase;
         var supabase = _supa.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     </script>
-    <script src="app.js?v=3.2"></script>
+    <script src="app.js?v=3.3"></script>
 </body>
 </html>

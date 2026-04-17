@@ -5,7 +5,7 @@
 // ============================================================
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('Elite CRM Dash v3.2 — Global Search Fix');
+    console.log('Elite CRM Dash v3.3 — Interaction History Modal');
     initSidebar();
     initTabs();
     initSearch();
@@ -566,14 +566,74 @@ function renderTable() {
             <td class="cell-check">${chk(seg, 'llamada_15d', 'fecha_15d')}</td>
             <td class="cell-check">${chk(seg, 'llamada_25d', 'fecha_25d')}</td>
             <td class="cell-check">${chk(seg, 'llamada_35d', 'fecha_35d')}</td>
-            <td class="cell-resumen" title="${resumenText.replace(/"/g, '&quot;')}"><em>${resumenShort}</em></td>
+            <td class="cell-resumen" title="${resumenText.replace(/"/g, '&quot;')}">
+                <em>${resumenShort}</em>
+                ${ints.length > 0 ? `<br><a href="#" class="view-history-link" data-id="${seg.id}" style="font-size:10px; color:var(--color-prio-alta); text-decoration:underline">Ver ${ints.length} interacciones</a>` : ''}
+            </td>
             <td>${ventasH}</td>
             <td class="cell-obs"><em>${seg.observaciones || '-'}</em></td>
             <td><span class="calidad-badge ${seg.calidad || 'BUENO'}"><span class="calidad-dot"></span> ${seg.calidad || '-'}</span></td>
         `;
         tbody.appendChild(tr);
     });
-    initCheckboxes(); updFooter(filteredRows.length);
+    initCheckboxes(); 
+    initHistoryLinks();
+    updFooter(filteredRows.length);
+}
+
+function initHistoryLinks() {
+    document.querySelectorAll('.view-history-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const id = link.dataset.id;
+            const seg = allRows.find(r => r.id === id);
+            if (seg) openHistorial(seg);
+        });
+    });
+}
+
+function openHistorial(seg) {
+    const modal = document.getElementById('modal-historial');
+    const timeline = document.getElementById('historial-timeline');
+    const meta = document.getElementById('historial-meta');
+    const c = seg.clientes || {};
+    
+    meta.innerHTML = `
+        <div style="font-weight:700; font-size:18px">${c.nombre_completo || 'Cliente Sin Nombre'}</div>
+        <div style="color:var(--color-text-muted)">WhatsApp: ${c.whatsapp || '-'} · Ciudad: ${c.ciudad || '-'}</div>
+    `;
+
+    const sortedInts = (seg.interacciones || []).sort((a, b) => new Date(b.fecha_interaccion || b.created_at) - new Date(a.fecha_interaccion || a.created_at));
+    
+    if (!sortedInts.length) {
+        timeline.innerHTML = '<div style="text-align:center; padding:20px; color:var(--color-text-muted)">No hay historial de interacciones.</div>';
+    } else {
+        timeline.innerHTML = sortedInts.map(i => {
+            const dateStr = i.fecha_interaccion ? new Date(i.fecha_interaccion).toLocaleString('es-CO') : 'Sin fecha';
+            const icon = i.tipo === 'LLAMADA_IA' ? 'smart_toy' : 'chat';
+            const color = i.resultado === 'EXITOSA' ? '#22c55e' : (i.resultado === 'BUZON' || i.resultado === 'NO_CONTESTO' ? '#ef4444' : '#f59e0b');
+            return `
+                <div class="timeline-item">
+                    <div class="timeline-icon" style="background:${color}33; color:${color}">
+                        <span class="material-icons-outlined" style="font-size:18px">${icon}</span>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <span class="timeline-type">${i.tipo.replace(/_/g, ' ')}</span>
+                            <span class="timeline-date">${dateStr}</span>
+                        </div>
+                        <div class="timeline-body">
+                            <strong>${i.motivo || 'SEGUIMIENTO'}:</strong> ${i.notas || i.resultado || 'Sin detalles'}
+                            ${i.duracion_segundos ? `<div style="font-size:11px; color:var(--color-text-muted); margin-top:4px">Duración: ${i.duracion_segundos}s</div>` : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    modal.style.display = 'flex';
+    document.getElementById('close-modal-historial').onclick = () => modal.style.display = 'none';
 }
 
 function chk(seg, field, dateField) {
