@@ -5,7 +5,7 @@
 // ============================================================
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('Elite CRM Dash v2.1 — Ref: PGRST201 Fix');
+    console.log('Elite CRM Dash v2.5 — Definitive Fix');
     initSidebar();
     initTabs();
     initSearch();
@@ -145,7 +145,7 @@ async function loadPendientes() {
     // Get seguimientos with their client info and interactions
     const { data: segs } = await supabase
         .from('seguimientos_fidelizacion')
-        .select(`*, pedidos ( producto, ticket_compra, clientes ( id, nombre_completo, whatsapp, ciudad, departamento, etiqueta ) ), interacciones ( fecha_interaccion, tipo, resultado )`)
+        .select(`*, pedidos ( producto, ticket_compra, clientes!pedidos_cliente_id_fkey ( id, nombre_completo, whatsapp, ciudad, departamento, etiqueta ) ), interacciones ( fecha_interaccion, tipo, resultado )`)
         .eq('estado_tarea', 'ACTIVA')
         .order('created_at', { ascending: false });
 
