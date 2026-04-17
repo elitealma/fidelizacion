@@ -29,6 +29,14 @@ let allClientes = [];
 let allPedidos = [];
 let allAsesores = [];
 
+function getInteraccionesPara(item) {
+    const p = item.pedidos || {};
+    const c = p.clientes || {};
+    const w = item.whatsapp || p.whatsapp || c.whatsapp;
+    if (w) return allInteracciones.filter(i => i.whatsapp === w);
+    return item.interacciones || [];
+}
+
 async function loadAll() {
     await loadCoreData();
     loadKPIs();
@@ -91,51 +99,19 @@ function calcPendientes() {
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
     const sevenStr = sevenDaysAgo.toISOString().slice(0, 10);
 
-    const contactedClientIds = new Set();
-    allInteracciones.forEach(i => {
-        if (i.fecha_interaccion && i.fecha_interaccion.slice(0, 10) >= sevenStr) {
-            // We need to find the client via seguimiento -> pedido -> cliente
-            // For efficiency, just mark seguimiento_id as contacted
-            contactedClientIds.add(i.seguimiento_id);
-        }
-    });
-
-    // Get all clients that have pedidos but no recent interactions
-    const clientsWithPedidos = new Set(allPedidos.map(p => p.cliente_id));
-    const clientsContacted = new Set();
-
-    // Build a map: seguimiento -> pedido -> cliente
-    // We'll use allRows from the table for this (loaded separately)
-    // For now, calculate from allClientes - those without recent interactions
-    allInteracciones.forEach(i => {
-        if (i.fecha_interaccion && i.fecha_interaccion.slice(0, 10) >= sevenStr) {
-            // Find which client this interaction belongs to
-            const pedido = allPedidos.find(p => {
-                // interacciones link to seguimientos, not directly to pedidos
-                // We'll approximate: any client with ANY recent interaction is contacted
-                return true;
-            });
-        }
-    });
-
-    // Simpler approach: clients with at least one pedido and no interaction in last 7 days
-    const recentInteractionSeguimientoIds = new Set(
+    const recentContactWhatsapps = new Set(
         allInteracciones
             .filter(i => i.fecha_interaccion && i.fecha_interaccion.slice(0, 10) >= sevenStr)
-            .map(i => i.seguimiento_id)
+            .map(i => i.whatsapp)
     );
 
     return allClientes.filter(c => {
-        const hasPedido = allPedidos.some(p => p.cliente_id === c.id);
+        if (!c.whatsapp) return false;
+        
+        const hasPedido = allPedidos.some(p => p.whatsapp === c.whatsapp);
         if (!hasPedido) return false;
-        // Check if any interaction exists recently for this client's pedidos
-        const clientPedidoIds = allPedidos.filter(p => p.cliente_id === c.id).map(p => p.id);
-        // We can't directly link without seguimientos, so use a broader check
-        const hasRecentInteraction = allInteracciones.some(i => {
-            if (!i.fecha_interaccion || i.fecha_interaccion.slice(0, 10) < sevenStr) return false;
-            return true; // This would need seguimientos link
-        });
-        return !hasRecentInteraction;
+        
+        return !recentContactWhatsapps.has(c.whatsapp);
     });
 }
 
@@ -171,6 +147,8 @@ async function loadPendientes() {
         .select(`*, pedidos ( producto, ticket_compra, clientes ( id, nombre_completo, whatsapp, ciudad, departamento, etiqueta ) ), interacciones ( fecha_interaccion, tipo, resultado )`)
         .eq('estado_tarea', 'ACTIVA')
         .order('created_at', { ascending: false });
+
+    if (segs) segs.forEach(s => s.interacciones = getInteraccionesPara(s));
 
     if (!segs || !segs.length) {
         grid.innerHTML = '<div class="pendientes-empty"><span class="material-icons-outlined">check_circle</span> Todos los clientes están al día</div>';
@@ -410,6 +388,8 @@ async function loadTable() {
         .order('created_at', { ascending: false });
     if (error) { console.error(error); allRows = []; }
     else { const po = { ALTA: 0, MEDIA: 1, BAJA: 2 }; allRows = (data || []).sort((a, b) => (po[a.prioridad] || 1) - (po[b.prioridad] || 1)); }
+
+    allRows.forEach(row => row.interacciones = getInteraccionesPara(row));
 
     // Auto-marcar checkboxes según días transcurridos desde fecha_pedido
     await autoCheckByDays();
@@ -699,7 +679,9 @@ async function loadKanban() {
         .from('seguimientos_fidelizacion')
         .select(`*, pedidos ( producto, ticket_compra, estado_logistico, clientes ( nombre_completo, etiqueta, whatsapp ) ), asesores ( nombre_completo ), interacciones ( tipo, resultado, fue_venta, duracion_segundos, notas )`)
         .order('created_at', { ascending: false });
-    return data || [];
+    const items = data || [];
+    items.forEach(s => s.interacciones = getInteraccionesPara(s));
+    return items;
 }
 
 async function renderKanban(mode) {
@@ -788,6 +770,7 @@ function kanbanCard(seg) {
 async function loadReportes() {
     await loadCoreData();
     const segs = (await supabase.from('seguimientos_fidelizacion').select(`*, pedidos ( ticket_compra, clientes ( etiqueta, canal_adquisicion ) ), asesores ( nombre_completo ), interacciones ( tipo, resultado, fue_venta, duracion_segundos, fecha_interaccion, notas )`)).data || [];
+    segs.forEach(s => s.interacciones = getInteraccionesPara(s));
 
     // Ventas Area Chart
     drawVentasAreaChart();
